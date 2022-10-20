@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="portal.mail_template_data_portal_welcome" model="mail.template">
+            <field name="msgtype">template_card</field>
+            <field name="message_to_user">{{ object.wecom_userid }}</field>
+            <field name="media_id" ref="wecom_material.wecom_material_image_account_created"/>
+            <field name="body_json">{
+  "card_type": "news_notice",
+  "source": {
+    "icon_url": "{{ object.get_base_url() }}/wecom_message_logo.png?company={{ object.company_id.id }}",
+    "desc": "{{ object.company_id.name }}"
+  },
+  "main_title": {
+    "title": "Your account at {{ object.user_id.company_id.name }}",
+    "desc": "{{ object.create_uid.name }} from {{ object.company_id.name }} invites you to use our system"
+  },
+  "card_image": {
+    "url": "{{ object.get_base_url() }}/wecom_material/static/src/img/account_created.png",
+    "aspect_ratio": 2.25
+  },
+  "vertical_content_list": [
+    {
+      "title": "Dear {{ object.name }}",
+      "desc": " Welcome to {{object.user_id.company_id.name}}'s Portal! An account has been created for you with the following login:{{object.user_id.login}}, Click on the button below to pick a password and activate your account."
+    }
+  ],
+  "horizontal_content_list": [
+    {
+      "keyname": "Sender",
+      "value": "{{object.create_uid.name}}"
+    },
+    {
+      "type": 1,
+      "keyname": "Activate Account",
+      "value": "Click Activate",
+      "url": "{{object.user_id.signup_url}}"
+    },
+    {
+      "type": 1,
+      "keyname": "Log in",
+      "value": "Click Log in",
+      "url": "{{ object.get_base_url() }}/web/login?login={{ object.user_id.login }}"
+    }
+  ],
+  "card_action": {
+    "type": 1,
+    "url": "{{object.user_id.signup_url}}",
+    "appid": "",
+    "pagepath": ""
+  }
+}
+            </field>
+            <field name="safe">1</field>
+            <field name="enable_id_trans" eval="False"/>
+            <field name="enable_duplicate_check" eval="False"/>
+            <field name="duplicate_check_interval">1800</field>
+        </record>
+
+    </data>
+</odoo>

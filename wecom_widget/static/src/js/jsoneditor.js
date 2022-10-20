@@ -49,11 +49,14 @@ odoo.define("wecom.FieldTextJson", function (require) {
             self.json_data = $input.val();
             $input.empty();
             _.defer(function ($elm) {
-                // if (this.mode === 'edit') {
-                //     if ($input[1]) {
-                //         $input[1].remove();
-                //     }
-                // }
+                if (this.mode === 'edit' && $input.length > 1) {
+                    $.each($input, function (index, e) {
+                        if (index > 0) {
+                            // $(e).remove();
+                            $(e).addClass("d-none");
+                        }
+                    })
+                }
 
                 $input.removeClass(this.className);
                 $input.wrap(_.str.sprintf("<div class='%s'></div>", self.className));
@@ -69,12 +72,14 @@ odoo.define("wecom.FieldTextJson", function (require) {
                         self.$editor.menu.appendChild($translate[0]);
                         // self.$editor.dom.translate = $translate[0];
                     }
+
                 }
                 if ($input.val() != "") {
                     self.$editor.set(jQuery.parseJSON($input.val()));
                 }
             }.bind(this), $input);
 
+            // console.log(self.$el.parent().find(".o_form_field_jsoneditor").length)
             return $input;
         },
         _renderReadonly: function () {

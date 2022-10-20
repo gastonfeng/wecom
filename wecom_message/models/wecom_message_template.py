@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
 
-import base64
 import logging
 
-
 from odoo import _, api, fields, models, tools
-from odoo.exceptions import UserError
-from odoo.addons.wecom_api import tools as wecom_tools
 
 _logger = logging.getLogger(__name__)
 
@@ -60,8 +56,8 @@ class WeComMessageTemplate(models.Model):
     use_default_to = fields.Boolean(
         "Default recipients",
         help="Default recipients of the record:\n"
-        "- partner (using id on a partner or the partner_id field) OR\n"
-        "- message (using sender or wecom_userid field)",
+             "- partner (using id on a partner or the partner_id field) OR\n"
+             "- message (using sender or wecom_userid field)",
     )
     partner_to = fields.Char(
         "To (Partners)",
@@ -157,10 +153,10 @@ class WeComMessageTemplate(models.Model):
         records_company = None
 
         if (
-            self._context.get("tpl_partners_only")
-            and self.model
-            and results
-            and "company_id" in self.env[self.model]._fields
+                self._context.get("tpl_partners_only")
+                and self.model
+                and results
+                and "company_id" in self.env[self.model]._fields
         ):
             records = self.env[self.model].browse(results.keys()).read(["company_id"])
             records_company = {
@@ -179,9 +175,9 @@ class WeComMessageTemplate(models.Model):
                 values["message_to_tag"],
             )
             messages = (
-                tools.email_split(values.pop("message_to_user", ""))
-                + tools.email_split(values.pop("message_to_party", ""))
-                + tools.email_split(values.pop("message_to_tag", ""))
+                    tools.email_split(values.pop("message_to_user", ""))
+                    + tools.email_split(values.pop("message_to_party", ""))
+                    + tools.email_split(values.pop("message_to_tag", ""))
             )
             print("------------", messages)
             Partner = self.env["res.partner"]
@@ -209,7 +205,7 @@ class WeComMessageTemplate(models.Model):
             multi_mode = False
         results = dict()
         for lang, (template, template_res_ids) in self._classify_per_lang(
-            res_ids
+                res_ids
         ).items():
             for field in fields:
                 template = template.with_context(safe=(field == "subject"))
@@ -276,12 +272,12 @@ class WeComMessageTemplate(models.Model):
         records.check_access_rule("read")
 
     def send_message(
-        self,
-        res_id,
-        force_send=False,
-        raise_exception=False,
-        message_values=None,
-        notif_layout=False,
+            self,
+            res_id,
+            force_send=False,
+            raise_exception=False,
+            message_values=None,
+            notif_layout=False,
     ):
 
         """
@@ -328,7 +324,7 @@ class WeComMessageTemplate(models.Model):
         company = record.company_id
 
         values.update(message_values or {})
-  
+
         # 添加防止无效的email_from的保护措施
         if "sender" in values and not values.get("sender"):
             values.pop("sender")
@@ -344,19 +340,19 @@ class WeComMessageTemplate(models.Model):
             else:
                 template_ctx = {
                     "message": self.env["wecom.message.message"]
-                    .sudo()
-                    .new(
+                        .sudo()
+                        .new(
                         dict(
                             body_html=values["body_html"],
                             record_name=record.display_name,
                         )
                     ),
                     "model_description": self.env["ir.model"]
-                    ._get(record._name)
-                    .display_name,
+                        ._get(record._name)
+                        .display_name,
                     "company": "company_id" in record
-                    and record["company_id"]
-                    or self.env.company,
+                               and record["company_id"]
+                               or self.env.company,
                     "record": record,
                 }
                 body_html = template._render(
@@ -380,19 +376,19 @@ class WeComMessageTemplate(models.Model):
             else:
                 template_ctx = {
                     "message": self.env["wecom.message.message"]
-                    .sudo()
-                    .new(
+                        .sudo()
+                        .new(
                         dict(
                             body_json=values["body_json"],
                             record_name=record.display_name,
                         )
                     ),
                     "model_description": self.env["ir.model"]
-                    ._get(record._name)
-                    .display_name,
+                        ._get(record._name)
+                        .display_name,
                     "company": "company_id" in record
-                    and record["company_id"]
-                    or self.env.company,
+                               and record["company_id"]
+                               or self.env.company,
                     "record": record,
                 }
                 body_json = template._render(
@@ -416,19 +412,19 @@ class WeComMessageTemplate(models.Model):
             else:
                 template_ctx = {
                     "message": self.env["wecom.message.message"]
-                    .sudo()
-                    .new(
+                        .sudo()
+                        .new(
                         dict(
                             body_markdown=values["body_markdown"],
                             record_name=record.display_name,
                         )
                     ),
                     "model_description": self.env["ir.model"]
-                    ._get(record._name)
-                    .display_name,
+                        ._get(record._name)
+                        .display_name,
                     "company": "company_id" in record
-                    and record["company_id"]
-                    or self.env.company,
+                               and record["company_id"]
+                               or self.env.company,
                     "record": record,
                 }
                 body_markdown = template._render(

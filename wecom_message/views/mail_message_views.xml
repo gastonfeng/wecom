@@ -42,8 +42,8 @@
                                 <field name="res_id" widget="integer"/>
                                 <field name="record_name"/>
                                 <field name="parent_id"/>
-                                <field name="moderation_status"/>
-                                <field name="moderator_id"/>
+                                <!-- <field name="moderation_status"/> -->
+                                <!-- <field name="moderator_id"/> -->
                             </group>
                         </group>
                         <group string="Message">
@@ -55,7 +55,7 @@
                             <group string="Options">
                                 <field name="is_wecom_message"/>
                                 <field name="msgtype"/>
-                                <field name="message_id"/>
+                                <field name="wecom_message_id"/>
                                 <field name="failure_reason"/>
                                 <!-- <field name="use_templates"/> -->
                                 <!-- <field name="templates_id" attrs="{'invisible': [('use_templates','=',False)]}" options="{'quick_create': False,'no_open': True,}"/> -->
@@ -78,7 +78,7 @@
                                 <group>
                                     <group>
                                         <field name="partner_ids" widget="many2many_tags"/>
-                                        <field name="channel_ids" widget="many2many_tags"/>
+                                        <!-- <field name="channel_ids" widget="many2many_tags"/> -->
                                     </group>
                                     <group>
                                         <field name="notified_partner_ids" widget="many2many_tags"/>

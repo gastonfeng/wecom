@@ -305,52 +305,52 @@
             </xpath>
         </template>
 
-        <template id="footer_custom" inherit_id="website.footer_custom" name="Default" >
-            <xpath expr="//div[@data-name='Social Media']" position="replace">
-                <div class="s_share text-left" data-snippet="s_share" data-name="Social Media">
-                    <h5 class="s_share_title d-none">Follow us</h5>
-                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="s_share_twitter" target="_blank">
-                        <i class="fa fa-twitter rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="s_share_facebook" target="_blank">
-                        <i class="fa fa-facebook rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_github" t-att-href="website.social_github" class="s_share_github" target="_blank">
-                        <i class="fa fa-github rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="s_share_linkedin" target="_blank">
-                        <i class="fa fa-linkedin rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="s_share_youtube" target="_blank">
-                        <i class="fa fa-youtube rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="s_share_instagram" target="_blank">
-                        <i class="fa fa-instagram rounded-circle shadow-sm"/>
-                    </a>
+<!--        <template id="footer_custom" inherit_id="website.footer_custom" name="Default" >-->
+<!--            <xpath expr="//div[@data-name='Social Media']" position="replace">-->
+<!--                <div class="s_share text-left" data-snippet="s_share" data-name="Social Media">-->
+<!--                    <h5 class="s_share_title d-none">Follow us</h5>-->
+<!--                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="s_share_twitter" target="_blank">-->
+<!--                        <i class="fa fa-twitter rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="s_share_facebook" target="_blank">-->
+<!--                        <i class="fa fa-facebook rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_github" t-att-href="website.social_github" class="s_share_github" target="_blank">-->
+<!--                        <i class="fa fa-github rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="s_share_linkedin" target="_blank">-->
+<!--                        <i class="fa fa-linkedin rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="s_share_youtube" target="_blank">-->
+<!--                        <i class="fa fa-youtube rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="s_share_instagram" target="_blank">-->
+<!--                        <i class="fa fa-instagram rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
 
-                    <a t-if="website.social_wechat" href="javascript:void(0);" class="s_share_wechat pop_social_qrcode" t-attf-data-img="data:image/png;base64,{{website.social_wechat}}" data-toggle="popover" data-placement="top" title="Pay attention to our WeChat official account.">
-                        <i class="fa fa-wechat rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_wechat_kf" href="javascript:void(0);" class="s_share_wechat pop_social_qrcode" t-attf-data-img="data:image/png;base64,{{website.social_wechat_kf}}" data-toggle="popover" data-placement="top" title="Wechat scanning code to contact us.">
-                        <i class="fa fa-headphones rounded-circle shadow-sm"/>
-                    </a>
+<!--                    <a t-if="website.social_wechat" href="javascript:void(0);" class="s_share_wechat pop_social_qrcode" t-attf-data-img="data:image/png;base64,{{website.social_wechat}}" data-toggle="popover" data-placement="top" title="Pay attention to our WeChat official account.">-->
+<!--                        <i class="fa fa-wechat rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_wechat_kf" href="javascript:void(0);" class="s_share_wechat pop_social_qrcode" t-attf-data-img="data:image/png;base64,{{website.social_wechat_kf}}" data-toggle="popover" data-placement="top" title="Wechat scanning code to contact us.">-->
+<!--                        <i class="fa fa-headphones rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
 
-                    <a t-if="website.social_qq" t-attf-href="http://wpa.qq.com/msgrd?v=3&amp;uin={{website.social_qq}}&amp;site=qq&amp;menu=yes" class="s_share_qq" target="_blank">
-                        <i class="fa fa-qq rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_weibo" t-att-href="website.social_weibo" class="s_share_weibo" target="_blank">
-                        <i class="fa fa-weibo rounded-circle shadow-sm"/>
-                    </a>
-                    <a t-if="website.social_renren" t-att-href="website.social_renren" class="s_share_renren" target="_blank">
-                        <i class="fa fa-renren rounded-circle shadow-sm"/>
-                    </a>
+<!--                    <a t-if="website.social_qq" t-attf-href="http://wpa.qq.com/msgrd?v=3&amp;uin={{website.social_qq}}&amp;site=qq&amp;menu=yes" class="s_share_qq" target="_blank">-->
+<!--                        <i class="fa fa-qq rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_weibo" t-att-href="website.social_weibo" class="s_share_weibo" target="_blank">-->
+<!--                        <i class="fa fa-weibo rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                    <a t-if="website.social_renren" t-att-href="website.social_renren" class="s_share_renren" target="_blank">-->
+<!--                        <i class="fa fa-renren rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
 
-                    <a href="/" class="text-800 float-right">
-                        <i class="fa fa-home rounded-circle shadow-sm"/>
-                    </a>
-                </div>
-            </xpath>
-        </template>
+<!--                    <a href="/" class="text-800 float-right">-->
+<!--                        <i class="fa fa-home rounded-circle shadow-sm"/>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </xpath>-->
+<!--        </template>-->
 
         <template id="template_footer_descriptive" inherit_id="website.template_footer_descriptive" name="Descriptive">
             <xpath expr="//div[@data-name='Social Media']" position="replace">

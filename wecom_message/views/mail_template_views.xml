@@ -59,6 +59,9 @@
                             </page>
                             <page string="Message Options" name="advanced_settings">
                                 <group>
+                                    <field name="message_to_user"/>
+                                    <field name="message_to_party"/>
+                                    <field name="message_to_tag"/>
                                     <field name="safe"/>
                                     <field name="enable_id_trans"/>
                                     <field name="enable_duplicate_check"/>
@@ -95,9 +98,9 @@
             <field name="arch" type="xml">
                 <tree string="Message Templates">
                     <field name="name"/>
+                    <field name="model_id"/>
                     <field name="subject"/>
                     <field name="msgtype"/>
-                    <field name="model_id"/>
                 </tree>
             </field>
         </record>

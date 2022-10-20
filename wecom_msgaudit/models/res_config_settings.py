@@ -29,10 +29,10 @@ class ResConfigSettings(models.TransientModel):
     #     "Automatically get internal group chat name", default=True
     # )
 
-    chatdata_add_to_log_note_img_max_size = fields.Integer(
-        "WeCom Chat data picture attached to log note picture size",
+    chatdata_img_max_size = fields.Integer(
+        "Maximum size of session content pictures after compression",
         default=512,
-        config_parameter="wecom.msgaudit.chatdata.add_to_log_note.img_max_size",
+        config_parameter="wecom.msgaudit.chatdata_img_max_size",
     )
 
     # msgaudit_sdk_proxy = fields.Boolean(string="Proxy Request", default=False,)
@@ -52,32 +52,13 @@ class ResConfigSettings(models.TransientModel):
         default="/wecom/finance/mediadata",
         config_parameter="wecom.msgaudit.msgaudit_mediadata_url",
     )
+    msgaudit_use_physical_path_storage_media_files = fields.Boolean(
+        string="Use physical paths to store media files",
+        default=True,
+        config_parameter="wecom.msgaudit.use_physical_path_storage",
+    )
 
     module_wecom_chatdata_log_note = fields.Boolean(
         "Wecom chat records attached to log note"
     )
 
-    # @api.model
-    # def get_values(self):
-    #     res = super(ResConfigSettings, self).get_values()
-    #     ir_config = self.env["ir.config_parameter"].sudo()
-
-    #     msgaudit_auto_get_internal_groupchat_name = (
-    #         True
-    #         if ir_config.get_param("wecom.msgaudit.auto_get_internal_groupchat_name")
-    #         == "True"
-    #         else False
-    #     )
-
-    #     res.update(
-    #         msgaudit_auto_get_internal_groupchat_name=msgaudit_auto_get_internal_groupchat_name,
-    #     )
-    #     return res
-
-    # def set_values(self):
-    #     super(ResConfigSettings, self).set_values()
-    #     ir_config = self.env["ir.config_parameter"].sudo()
-    #     ir_config.set_param(
-    #         "wecom.msgaudit.auto_get_internal_groupchat_name",
-    #         self.msgaudit_auto_get_internal_groupchat_name or "False",
-    #     )

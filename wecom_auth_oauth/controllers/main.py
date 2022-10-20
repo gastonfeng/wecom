@@ -1,41 +1,23 @@
 # -*- coding: utf-8 -*-
 
-import functools
+import json
 import logging
 
-import json
 import werkzeug.urls
 import werkzeug.utils
+from odoo.addons.auth_signup.controllers.main import AuthSignupHome as Home
+from odoo.addons.web.controllers.main import set_cookie_and_redirect, login_and_redirect
+from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException
 from werkzeug.exceptions import BadRequest
 
-from odoo import api, http, models, fields, SUPERUSER_ID, _
-from odoo.http import request
-from odoo.exceptions import AccessDenied, UserError
-
+from odoo import api, http, SUPERUSER_ID, _
 from odoo import registry as registry_get
-from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException
-
-from odoo.addons.auth_oauth.controllers.main import (
-    OAuthLogin as Home,
-    OAuthController as Controller,
-    fragment_to_query_string,
-)
-from odoo.addons.auth_signup.models.res_users import SignupError
-from odoo.addons.web.controllers.main import (
-    db_monodb,
-    ensure_db,
-    set_cookie_and_redirect,
-    login_and_redirect,
-)
-from odoo.addons.auth_signup.controllers.main import AuthSignupHome as SignupHome
-
-import urllib
-import requests
-from werkzeug import urls
+from odoo.exceptions import AccessDenied
+from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
-wecom_BROWSER_MESSAGES = {
+WECOM_BROWSER_MESSAGES = {
     "not_wecom_browser": _(
         "The current browser is not an WeCom built-in browser, so the one-click login function cannot be used."
     ),
@@ -45,77 +27,18 @@ wecom_BROWSER_MESSAGES = {
 }
 
 
-class AuthSignupHome(SignupHome):
-    def web_auth_signup(self, *args, **kw):
-        """
-        消息模板用户注册帐户已创建
-        """
-        qcontext = self.get_auth_signup_qcontext()
-
-        if not qcontext.get("token") and not qcontext.get("signup_enabled"):
-            raise werkzeug.exceptions.NotFound()
-
-        if "error" not in qcontext and request.httprequest.method == "POST":
-            try:
-                self.do_signup(qcontext)
-                # 发送帐户创建确认电子邮件
-                if qcontext.get("token"):
-                    User = request.env["res.users"]
-                    user_sudo = User.sudo().search(
-                        User._get_login_domain(qcontext.get("login")),
-                        order=User._get_login_order(),
-                        limit=1,
-                    )
-
-                    if user_sudo.wecom_userid:
-                        message_template = self.env.ref(
-                            "wecom_auth_oauth.message_template_user_signup_account_created",
-                            raise_if_not_found=False,
-                        )
-                        if user_sudo and message_template:
-                            return message_template.send_message(
-                                user_sudo.id, force_send=True, raise_exception=True,
-                            )
-                    else:
-                        mail_template = request.env.ref(
-                            "auth_signup.mail_template_user_signup_account_created",
-                            raise_if_not_found=False,
-                        )
-                        if user_sudo and mail_template:
-                            mail_template.sudo().send_mail(
-                                user_sudo.id, force_send=True
-                            )
-                return self.web_login(*args, **kw)
-            except UserError as e:
-                qcontext["error"] = e.args[0]
-            except (SignupError, AssertionError) as e:
-                if (
-                    request.env["res.users"]
-                    .sudo()
-                    .search([("login", "=", qcontext.get("login"))])
-                ):
-                    qcontext["error"] = _(
-                        "Another user is already registered using this email address or WeCom id."
-                    )
-                else:
-                    _logger.error("%s", e)
-                    qcontext["error"] = _("Could not create a new account.")
-
-        response = request.render("auth_signup.signup", qcontext)
-        response.headers["X-Frame-Options"] = "DENY"
-        return response
-
-
 class OAuthLogin(Home):
     def list_providers(self):
-        try:
-            providers = (
-                request.env["auth.oauth.provider"]
-                .sudo()
-                .search_read([("enabled", "=", True)])
-            )
-        except Exception:
-            providers = []
+        providers=super().list_providers()
+        _logger.info("list_providers in %s"%__file__)
+        # try:
+        #     providers = (
+        #         request.env["auth.oauth.provider"]
+        #         .sudo()
+        #         .search_read([("enabled", "=", True)])
+        #     )
+        # except Exception:
+        #     providers = []
         # 构造企业微信一键登录（应用内免登录）和扫码登录链接
         for provider in providers:
             if (
@@ -160,24 +83,24 @@ class OAuthLogin(Home):
                     provider["auth_endpoint"],
                     werkzeug.urls.url_encode(params),
                 )
-            else:
-                return_url = request.httprequest.url_root + "auth_oauth/signin"
-                state = self.get_state(provider)
-                params = dict(
-                    response_type="token",
-                    client_id=provider["client_id"],
-                    redirect_uri=return_url,
-                    scope=provider["scope"],
-                    state=json.dumps(state),
-                )
-                provider["auth_link"] = "%s?%s" % (
-                    provider["auth_endpoint"],
-                    werkzeug.urls.url_encode(params),
-                )
+            # else:
+            #     return_url = request.httprequest.url_root + "auth_oauth/signin"
+            #     state = self.get_state(provider)
+            #     params = dict(
+            #         response_type="token",
+            #         client_id=provider["client_id"],
+            #         redirect_uri=return_url,
+            #         scope=provider["scope"],
+            #         state=json.dumps(state),
+            #     )
+            #     provider["auth_link"] = "%s?%s" % (
+            #         provider["auth_endpoint"],
+            #         werkzeug.urls.url_encode(params),
+            #     )
         return providers
 
 
-class OAuthController(Controller):
+class OAuthController(http.Controller):
     @http.route(
         "/wxowrk_auth_oauth/authorize", type="http", auth="none",
     )
@@ -365,13 +288,13 @@ class OAuthController(Controller):
             if kwargs["is_wecom_browser"]:
                 data = {
                     "is_wecom_browser": True,
-                    "msg": wecom_BROWSER_MESSAGES["is_wecom_browser"],
+                    "msg": WECOM_BROWSER_MESSAGES["is_wecom_browser"],
                     "companies": [],
                 }
             else:
                 data = {
                     "is_wecom_browser": False,
-                    "msg": wecom_BROWSER_MESSAGES["not_wecom_browser"],
+                    "msg": WECOM_BROWSER_MESSAGES["not_wecom_browser"],
                     "companies": [],
                 }
         else:
@@ -387,10 +310,9 @@ class OAuthController(Controller):
 
         if len(companies) > 0:
             for company in companies:
-                app_config = request.env["wecom.app_config"].sudo()
-                contacts_app = company.contacts_app_id.sudo()  # 通讯录应用
+                # app_config = request.env["wecom.app_config"].sudo()
+                # contacts_app = company.contacts_app_id.sudo()  # 通讯录应用
                 auth_app = company.auth_app_id.sudo()  # 验证登录应用
-
                 data["companies"].append(
                     {
                         "id": company["id"],
@@ -398,11 +320,8 @@ class OAuthController(Controller):
                         "fullname": company["name"],
                         "appid": company["corpid"],
                         "agentid": auth_app.agentid if auth_app else 0,
-                        "join_qrcode": app_config.get_param(
-                            contacts_app.id, "join_qrcode"
-                        )
-                        if company.contacts_app_id
-                        else "",
+                        "enabled_join": company["wecom_contacts_join_qrcode_enabled"],
+                        "join_qrcode": company["wecom_contacts_join_qrcode"],
                     }
                 )
         return data

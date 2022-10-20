@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-02 09:05+0000\n"
-"PO-Revision-Date: 2022-02-02 17:06+0800\n"
+"POT-Creation-Date: 2022-08-10 02:27+0000\n"
+"PO-Revision-Date: 2022-08-10 10:29+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -15,7 +15,310 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
+
+#. module: wecom_contacts
+#: model:ir.model.fields.selection,name:wecom_contacts.selection__res_company__wecom_contacts_join_qrcode_size_type__1
+msgid "171px x 171px"
+msgstr ""
+
+#. module: wecom_contacts
+#: model:ir.model.fields.selection,name:wecom_contacts.selection__res_company__wecom_contacts_join_qrcode_size_type__4
+msgid "2052px x 2052px"
+msgstr ""
+
+#. module: wecom_contacts
+#: model:ir.model.fields.selection,name:wecom_contacts.selection__res_company__wecom_contacts_join_qrcode_size_type__2
+msgid "399px x 399px"
+msgstr ""
+
+#. module: wecom_contacts
+#: model:ir.model.fields.selection,name:wecom_contacts.selection__res_company__wecom_contacts_join_qrcode_size_type__3
+msgid "741px x 741px"
+msgstr ""
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "<i class=\"fa fa-lock fa-lg\" aria-label=\"Contacts Secret\"/>"
+msgstr "<i class=\"fa fa-lock fa-lg\" aria-label=\"通讯录Secret\"/>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "<i class=\"fa fa-puzzle-piece fa-lg\" aria-label=\"Contacts Application\"/>"
+msgstr "<i class=\"fa fa-puzzle-piece fa-lg\" aria-label=\"通讯录应用\"/>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "<i class=\"fa fa-server fa-lg\" aria-label=\"Wecom API Domain IP\"/>"
+msgstr "<i class=\"fa fa-server fa-lg\" aria-label=\"企业微信API域名IP段\"/>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.view_res_users_kanban
+msgid "<i class=\"fa fa-weixin\" role=\"img\" aria-label=\"Enterprise wechat user\" title=\" Enterprise wechat user\"/>"
+msgstr "<i class=\"fa fa-weixin\" role=\"img\" aria-label=\"企微用户\" title=\"企微用户\"/>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-archive fa-lg\" aria-label=\"Session Content Archive\"/>\n"
+"                                Session Content Archive\n"
+"                            <i class=\"fa fa-lg fa-info-circle fa-lg\" title=\"The values set below are the companies identified as WeCom organizations.\"/>\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-archive fa-lg\" aria-label=\"会话内容存档\"/>\n"
+"                                会话内容存档\n"
+"                            <i class=\"fa fa-lg fa-info-circle fa-lg\" title=\"此处设置的值是标识为企业微信组织的公司。\"/>\n"
+"                        </span>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-envelope-o fa-lg\" aria-label=\"Wecom Message settings\"/>\n"
+"                                Wecom Message settings\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-envelope-o fa-lg\" aria-label=\"企微消息设置\"/>\n"
+"                                企微消息设置\n"
+"                        </span>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-home fa-lg\" aria-label=\"Wecom Portal Settings\"/>\n"
+"                                Wecom Portal Settings\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-home fa-lg\" aria-label=\"企微门户设置\"/>\n"
+"                                企微门户设置\n"
+"                        </span>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-map-marker fa-lg\" aria-label=\"Attendances\"/>\n"
+"                                Attendances\n"
+"                            <i class=\"fa fa-lg fa-info-circle fa-lg\" title=\"The values set below are the companies identified as WeCom organizations.\"/>\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-map-marker fa-lg\" aria-label=\"出勤\"/>\n"
+"                                出勤\n"
+"                            <i class=\"fa fa-lg fa-info-circle fa-lg\" title=\"此处设置的值是标识为企业微信组织的公司。\"/>\n"
+"                        </span>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-pencil-square-o fa-lg\" aria-label=\"Approvals\"/>\n"
+"                                Approvals\n"
+"                            <i class=\"fa fa-lg fa-info-circle fa-lg\" title=\"The values set below are the companies identified as WeCom organizations.\"/>\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-pencil-square-o fa-lg\" aria-label=\"审批\"/>\n"
+"                                审批\n"
+"                            <i class=\"fa fa-lg fa-info-circle fa-lg\" title=\"此处设置的值是标识为企业微信组织的公司。\"/>\n"
+"                        </span>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-sign-in fa-lg\" aria-label=\"Wecom Authentication settings\"/>\n"
+"                                Wecom Authentication settings\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-sign-in fa-lg\" aria-label=\"企微身份验证设置\"/>\n"
+"                                企微身份验证设置\n"
+"                        </span>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-suitcase fa-lg\" aria-label=\"Wecom Material settings\"/>\n"
+"                                Wecom Material settings\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-left\">\n"
+"                            <i class=\"fa fa-suitcase fa-lg\" aria-label=\"企微素材设置\"/>\n"
+"                                企微素材设置\n"
+"                        </span>"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "<strong>Save</strong> this page and come back here to set up other feature."
+msgstr "<strong>保存</strong> 此页面并返回此处以设置其他功能。"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Address book synchronization secret. Check it in \"Administrative Tools\" → \"Address Book Synchronization\" (need to turn on \"API interface synchronization\"). To ensure data security, the key must not be leaked."
+msgstr "通讯簿同步密钥。 在“管理工具”→“地址簿同步”中进行检查（需要打开“ API接口同步”）。 为了确保数据安全，切勿泄露密钥。"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Anytime, anywhere approval, you can customize the approval template, support countersigning, or signing, superior approval, conditional approval, and adapt to various processes."
+msgstr "随时随地审批，可自定义审批模板，支持会签、或签、上级审批、条件审批，适应各种流程。"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_app_config_ids
+msgid "Application Configuration"
+msgstr "应用配置"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Automatic task:End obtaining joining enterprise QR code of company [%s]"
+msgstr "自动任务：结束获取公司[%s]的加入企业微信二维码"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Automatic task:Error in obtaining the QR code of joining company [%s],error code: %s, error name: %s, error message: %s"
+msgstr "自动任务：获取加入公司[%s]的企微二维码出错，错误代码：%s，错误名称：%s，错误消息：%s"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Automatic task:Please bind the contact app of company [%s]!"
+msgstr "自动任务：请绑定公司[%s]的通讯录应用！"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Automatic task:Please enable the company [%s] to join the enterprise wechat QR code function!"
+msgstr "自动任务：请启用公司[%s]加入企业微信二维码功能！"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Automatic task:Start to get join enterprise QR code of company [%s]"
+msgstr "自动任务：开始获取公司[%s]的加入企业二维码"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Binding application"
+msgstr "绑定应用"
+
+#. module: wecom_contacts
+#: model:ir.model,name:wecom_contacts.model_res_company
+msgid "Companies"
+msgstr "公司"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__company_id model:ir.model.fields,field_description:wecom_contacts.field_res_partner_category__company_id model_terms:ir.ui.view,arch_db:wecom_contacts.res_partner_category_view_search
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.view_users_search
+msgid "Company"
+msgstr "公司"
+
+#. module: wecom_contacts
+#: model:ir.model,name:wecom_contacts.model_res_config_settings
+msgid "Config Settings"
+msgstr "配置设置"
+
+#. module: wecom_contacts
+#: model:ir.model,name:wecom_contacts.model_res_partner
+msgid "Contact"
+msgstr "联系人"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.view_partner_category_form
+msgid "Contact Tag"
+msgstr "联系人标签"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_company__contacts_app_id model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_app_id
+msgid "Contacts Application"
+msgstr "通讯录应用"
+
+#. module: wecom_contacts
+#: model:wecom.apps,description:wecom_contacts.wecom_app_contacts
+msgid "Contacts can be synchronized through the API interface or through third-party applications"
+msgstr "可通过API接口或第三方应用同步通讯录"
+
+#. module: wecom_contacts
+#: model:wecom.apps,app_name:wecom_contacts.wecom_app_contacts
+msgid "Contacts synchronization"
+msgstr "通讯录同步"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_portal
+msgid "Customer Portal"
+msgstr "客户门户"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_partner_category__display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Display enterprise wechat related functions on the personal portal page, and create a menu of enterprise wechat applications."
+msgstr "在个人门户页面上显示企业微信相关功能，并创建企业微信应用菜单。"
+
+#. module: wecom_contacts
+#. openerp-web
+#: code:addons/wecom_contacts/static/src/js/download_contacts.js:0 code:addons/wecom_contacts/static/src/js/download_tags.js:0
+#, python-format
+msgid "Download failed!"
+msgstr "下载失败！"
+
+#. module: wecom_contacts
+#. openerp-web
+#: code:addons/wecom_contacts/static/src/js/download_contacts.js:0 code:addons/wecom_contacts/static/src/js/download_tags.js:0
+#, python-format
+msgid "Download succeeded!"
+msgstr "下载成功！"
+
+#. module: wecom_contacts
+#. openerp-web
+#: code:addons/wecom_contacts/static/src/xml/contact_views.xml:0
+#, python-format
+msgid "Download wecom contacts data"
+msgstr "下载企微联系人数据"
+
+#. module: wecom_contacts
+#. openerp-web
+#: code:addons/wecom_contacts/static/src/xml/contact_views.xml:0
+#, python-format
+msgid "Download wecom tag data"
+msgstr "下载企微标签数据"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_company__wecom_contacts_join_qrcode_enabled model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_join_qrcode_enabled
+msgid "Enable to join the enterprise QR code"
+msgstr "启用加入企业微信二维码"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "End getting join enterprise QR code of company [%s]"
+msgstr "结束获取公司[%s]的加入企业微信二维码"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "End obtaining enterprise wechat API domain name IP segment"
+msgstr "结束获取企业微信API域名IP段"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Enterprise members can easily punch in on mobile phones or smart attendance machines, and automatically generate attendance reports in combination with approval applications. Support fixed time commuting, flexible scheduling, free commuting and out clock."
+msgstr "企业成员可在手机或智慧考勤机上轻松打卡，结合审批申请自动生成出勤报表。支持固定时间上下班、灵活排班、自由上下班和外出打卡。"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Enterprise wechat has opened message sending interfaces. Enterprises can use these interfaces to enable two-way communication between custom applications and enterprise wechat background or users."
+msgstr "企业微信开放了消息发送接口，企业可以使用这些接口让自定义应用与企业微信后台或用户间进行双向通信。"
 
 #. module: wecom_contacts
 #: model_terms:ir.ui.view,arch_db:wecom_contacts.view_partner_form
@@ -23,6 +326,325 @@ msgid "Enterprise wechat information"
 msgstr "企微信息"
 
 #. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"Enterprise wechat provides OAuth's authorized login mode, which allows you to obtain the identity information of members from the web page opened by the enterprise wechat terminal, thus eliminating the login link.\n"
+"                                    <br/>\n"
+"                                    Enterprise wechat provides OAuth code scanning login authorization method, which can guide members to use enterprise wechat code scanning login authorization when the enterprise website is opened in the browser, so as to obtain the identity information of members and avoid the login link."
+msgstr ""
+"企业微信提供了OAuth的授权登录方式，可以让从企业微信终端打开的网页获取成员的身份信息，从而免去登录的环节。\n"
+"                                    <br/>\n"
+"                                    企业微信提供了OAuth的扫码登录授权方式，可以让企业的网站在浏览器内打开时，引导成员使用企业微信扫码登录授权，从而获取成员的身份信息，免去登录的环节。"
+
+#. module: wecom_contacts
 #: model_terms:ir.ui.view,arch_db:wecom_contacts.res_partner_kanban_view
 msgid "Enterprise wechat user"
 msgstr "企微用户"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Enterprises can obtain members' conversation content through the interface to meet the regulatory compliance requirements of enterprises and ensure the quality of customer service."
+msgstr "企业可通过接口获取成员会话内容，以符合企业监管合规要求和保障客户服务质量。"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_partner_category.py:0
+#, python-format
+msgid "Failed to download tag [%s] member of company [%s]!"
+msgstr "未能下载标签成员[%s] ，其公司为[%s]！"
+
+#. module: wecom_contacts
+#: model:ir.ui.menu,name:wecom_contacts.menu_get_wecom_api_domain_ip model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Get API Domain IP"
+msgstr "获取API域名IP段"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.view_partner_form model_terms:ir.ui.view,arch_db:wecom_contacts.wecom_view_users_form
+msgid "Get OpenID"
+msgstr "获取OpenID"
+
+#. module: wecom_contacts
+#: model:ir.ui.menu,name:wecom_contacts.menu_wecom_app_join_qrcode
+msgid "Get join enterprise QR code"
+msgstr "获取加入企业微信二维码"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_company__wecom_contacts_join_qrcode_last_time model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_join_qrcode_last_time
+msgid "Get the last time of QR code (UTC)"
+msgstr "获取二维码的最后时间(UTC)"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_partner_category_view_search
+msgid "Group By"
+msgstr "分组"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_partner__is_wecom_user model:ir.model.fields,field_description:wecom_contacts.field_res_users__is_wecom_user
+msgid "Is WeCom user"
+msgstr "是企微用户"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_company__wecom_contacts_join_qrcode model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_join_qrcode
+msgid "Join enterprise wechat QR code"
+msgstr "加入企业微信二维码"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_company__wecom_contacts_join_qrcode_size_type model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_join_qrcode_size_type
+msgid "Join enterprise wechat QR code  size type"
+msgstr "加入企业微信二维码尺寸类型"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Last Updated on"
+msgstr "最后更新时间"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.wecom_view_users_form
+msgid "Login account"
+msgstr "登录帐户"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Management application"
+msgstr "管理应用"
+
+#. module: wecom_contacts
+#: model:ir.model,name:wecom_contacts.model_res_partner_category
+msgid "Partner Tags"
+msgstr "合作伙伴标签"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_partner__qr_code model:ir.model.fields,field_description:wecom_contacts.field_res_users__qr_code
+msgid "Personal QR code"
+msgstr "个人二维码"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,help:wecom_contacts.field_res_partner__qr_code model:ir.model.fields,help:wecom_contacts.field_res_users__qr_code
+msgid "Personal QR code, Scan can be added as external contact"
+msgstr "个人二维码，扫描可作为外部联系人添加"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Please bind contact app!"
+msgstr "请绑定通讯录应用！"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Please enable the function of join enterprise QR code!"
+msgstr "请启用加入企业微信二维码功能！"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "QR code"
+msgstr "二维码"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "QR code size"
+msgstr "二维码尺寸"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_app_callback_service_ids
+msgid "Receive event service"
+msgstr "企微应用接收事件服务"
+
+#. module: wecom_contacts
+#. openerp-web
+#: code:addons/wecom_contacts/static/src/js/download_contacts.js:0 code:addons/wecom_contacts/static/src/js/download_tags.js:0
+#, python-format
+msgid "Refresh"
+msgstr "刷新"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Refresh the QR code"
+msgstr "刷新二维码"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__contacts_secret
+msgid "Secret"
+msgstr "密钥"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Session Content Archive"
+msgstr "会话内容存档"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Start getting join enterprise QR code of company [%s]"
+msgstr "开始获取公司[%s]的加入企业微信二维码"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_config_settings.py:0
+#, python-format
+msgid "Start to get enterprise wechat API domain name IP segment"
+msgstr "开始获取企业微信API域名IP段"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "Synchronize address book information such as department, member, tag, etc."
+msgstr "同步通讯簿信息，如部门、成员、标签等。"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,help:wecom_contacts.field_res_partner_category__tagid
+msgid "Tag ID, non negative integer. When this parameter is specified, the new tag will generate the corresponding tag ID. if it is not specified, it will be automatically increased by the current maximum ID."
+msgstr "标签id，非负整型，指定此参数时新增的标签会生成对应的标签id，不指定时则以目前最大的id自增。"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_partner_category.py:0
+#, python-format
+msgid "Tag list downloaded successfully."
+msgstr "标签列表下载成功。"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"The API domain name IP is the resolved address of the qyapi.weixin.qq.com, and the developer calls the access IP address of the enterprise WeChat terminal. If you need to configure a firewall, you can obtain all relevant IP segments through this interface. When the IP segment changes, the new and old IP segments will be "
+"retained for a period of time at the same time. We recommend that enterprises regularly pull IP segments every day and update firewall settings to avoid network blockage due to IP segment changes."
+msgstr "API域名IP即qyapi.weixin.qq.com的解析地址，由开发者调用企业微信端的接入IP。如果企业需要做防火墙配置，那么可以通过这个接口获取到所有相关的IP段。IP段有变更可能，当IP段变更时，新旧IP段会同时保留一段时间。建议企业每天定时拉取IP段，更新防火墙设置，避免因IP段变更导致网络不通。"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/__init__.py:0
+#, python-format
+msgid "The current company does not have an Corp ID configured for enterprise wechat"
+msgstr "当前公司没有为企业微信配置公司ID"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_partner_category.py:0
+#, python-format
+msgid "The current company does not identify the enterprise wechat organization. Please configure or switch the company."
+msgstr "当前公司未标识为企业微信组织。请配置或切换公司。"
+
+#. module: wecom_contacts
+#: model:wecom.apps,app_name:wecom_contacts.wecom_app_first_self_app
+msgid "The first application you built yourself."
+msgstr "您自建的第一个应用程序。"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,help:wecom_contacts.field_res_partner__wecom_user_order model:ir.model.fields,help:wecom_contacts.field_res_users__wecom_user_order
+msgid "The sort value in the department, the default is 0. The number must be the same as the department. The larger the number, the higher the order.The value range is [0, 2^32)"
+msgstr "部门中的排序值，默认值为0。该数字必须与部门相同。 数字越大，阶数越高。值的范围是[0，2 ^ 32）"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_partner_category.py:0
+#, python-format
+msgid "There is no mapping for field [%s], please contact the developer."
+msgstr "字段 [%s] 没有映射，请与开发人员联系。"
+
+#. module: wecom_contacts
+#: model:ir.model,name:wecom_contacts.model_res_users
+msgid "Users"
+msgstr "用户"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.wecom_view_users_form
+msgid "WeCom"
+msgstr "企微"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_approval model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid "WeCom Approvals"
+msgstr "企微审批"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_attendance
+msgid "WeCom Attendances"
+msgstr "企微出勤"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_auth_oauth
+msgid "WeCom Authentication"
+msgstr "企微身份验证"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_contacts_sync
+msgid "WeCom Contacts Synchronized"
+msgstr "企微通讯录同步"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_material
+msgid "WeCom Material"
+msgstr "企微素材"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_message
+msgid "WeCom Message"
+msgstr "企微消息"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_partner__wecom_openid model:ir.model.fields,field_description:wecom_contacts.field_res_users__wecom_openid
+msgid "WeCom OpenID"
+msgstr "企微用户OpenID"
+
+#. module: wecom_contacts
+#: code:addons/wecom_contacts/models/res_partner_category.py:0 model:ir.model.fields,field_description:wecom_contacts.field_res_partner_category__is_wecom_tag
+#, python-format
+msgid "WeCom Tag"
+msgstr "企微标签"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_partner_category__tagid
+msgid "WeCom Tag ID"
+msgstr "企微标签ID"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_partner__wecom_userid model:ir.model.fields,field_description:wecom_contacts.field_res_users__wecom_userid
+msgid "WeCom User ID"
+msgstr "企微用户ID"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_partner__wecom_user_order model:ir.model.fields,field_description:wecom_contacts.field_res_users__wecom_user_order
+msgid "WeCom User sequence"
+msgstr "企微用户排序"
+
+#. module: wecom_contacts
+#: model:ir.actions.server,name:wecom_contacts.ir_cron_get_wecom_api_domain_ip_ir_actions_server model:ir.cron,cron_name:wecom_contacts.ir_cron_get_wecom_api_domain_ip model:ir.cron,name:wecom_contacts.ir_cron_get_wecom_api_domain_ip
+msgid "WeCom: Get API Domain IP"
+msgstr "企微：获取API域名IP段"
+
+#. module: wecom_contacts
+#: model:ir.actions.server,name:wecom_contacts.ir_cron_get_join_qrcode_ir_actions_server model:ir.cron,cron_name:wecom_contacts.ir_cron_get_join_qrcode model:ir.cron,name:wecom_contacts.ir_cron_get_join_qrcode
+msgid "WeCom: Get join enterprise QR code"
+msgstr "企微：获取加入企业二维码"
+
+#. module: wecom_contacts
+#: model:ir.actions.act_window,name:wecom_contacts.ir_cron_act_get_join_qrcode
+msgid "WeCom: Get join enterprise QR code."
+msgstr "企微：获取加入企业二维码。"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__wecom_api_domain_ip
+msgid "Wecom API Domain IP"
+msgstr "企业微信API域名IP段"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.view_partner_category_form
+msgid "Wecom Info"
+msgstr "企微信息"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_portal
+msgid "Wecom Portal"
+msgstr "企微门户"
+
+#. module: wecom_contacts
+#: model:ir.model.fields,field_description:wecom_contacts.field_res_config_settings__module_wecom_msgaudit
+msgid "Wecom Session Content Archive"
+msgstr "企微会话内容存档"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.res_config_settings_view_form
+msgid ""
+"When using the enterprise wechat API interface, developers often need to use custom resources, such as sending local picture messages, setting address book custom avatars, etc.<br/>\n"
+"                                    In order to realize the same resource file, one upload can be used multiple times. Here is a material management interface: media_ ID to identify resource files and realize file upload and download."
+msgstr ""
+"在使用企业微信API接口中，往往开发者需要使用自定义的资源，比如发送本地图片消息，设置通讯录自定义头像等。<br/>\n"
+"                                    为了实现同一资源文件，一次上传可以多次使用，这里提供了素材管理接口：以media_id来标识资源文件，实现文件的上传与下载。"
+
+#. module: wecom_contacts
+#: model_terms:ir.ui.view,arch_db:wecom_contacts.view_partner_category_form
+msgid "e.g. \"Consulting Services\""
+msgstr "例如：咨询服务"

@@ -25,13 +25,10 @@ class ResConfigSettings(models.TransientModel):
         default=lambda self: self.env.company,
     )
 
-    auth_app_id = fields.Many2one(
-        related="company_id.auth_app_id",
-        readonly=False,
-    )
+    auth_app_id = fields.Many2one(related="company_id.auth_app_id", readonly=False,)
     auth_agentid = fields.Integer(related="auth_app_id.agentid", readonly=False)
     auth_secret = fields.Char(related="auth_app_id.secret", readonly=False)
-    auth_access_token = fields.Char(related="auth_app_id.access_token")
+
     auth_app_config_ids = fields.One2many(
         # related="company_id.contacts_auto_sync_hr_enabled", readonly=False
         related="auth_app_id.app_config_ids",
@@ -63,7 +60,9 @@ class ResConfigSettings(models.TransientModel):
         """
         app = self.env.context.get("app")
         for record in self:
-            if  app=="auth" and (record.auth_app_id.agentid == 0 or record.auth_app_id.secret == ""):
+            if app == "auth" and (
+                record.auth_app_id.agentid == 0 or record.auth_app_id.secret == ""
+            ):
                 raise UserError(_("Auth application ID and secret cannot be empty!"))
             else:
                 record.auth_app_id.get_app_info()

@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from dateutil.relativedelta import relativedelta
-
-from odoo import api, fields, models
-from odoo.exceptions import AccessError
-from odoo.tools.translate import _
+from odoo import fields, models
 
 
 class WecomMessageNotification(models.Model):

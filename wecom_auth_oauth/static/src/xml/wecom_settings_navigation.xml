@@ -3,12 +3,11 @@
 
     <t t-extend="res_config_wecom_navigation_menu">
         <t t-jquery="a:last" t-operation="after">
-            <a type="button" role="button" class="btn btn-secondary fa fa-sign-in wecom__jump_anchor" href="#wecom_oauth">
-                <h5 style="display:inline;"> Auth settings</h5>
+
+            <a type="button" role="button" class="btn btn-secondary fa fa-sign-in wecom_jump_anchor" href="#wecom_auth_oauth">
+                <h5 style="display:inline;"> Authentication settings</h5>
             </a>
-            <!-- <a type="button" role="button" class="btn btn-secondary fa fa-qrcode wecom__jump_anchor" href="#wecom_oauth_qrcode">
-                <h5 style="display:inline;"> QR Code settings</h5>
-            </a> -->
+
         </t>
     </t>
 

@@ -30,7 +30,7 @@ class ResUsers(models.Model):
             or wecom_qr_auth_endpoint in wecom_providers["auth_endpoint"]
         ):
             # 扫码登录
-            oauth_userid = params["UserId"]
+            oauth_userid = params["UserId"].lower()
             oauth_user = self.search(
                 [
                     # ("oauth_uid", "=", oauth_userid),
@@ -39,13 +39,14 @@ class ResUsers(models.Model):
                     ("active", "=", True),
                 ]
             )
+   
             if not oauth_user or len(oauth_user) > 1:
                 return AccessDenied
             return (self.env.cr.dbname, oauth_user.login, oauth_userid)
         else:
             return AccessDenied
 
-    @api.model
+
     def _check_credentials(self, password, env):
         # password为企业微信的用户ID
         try:
@@ -56,4 +57,3 @@ class ResUsers(models.Model):
             )
             if not res:
                 raise
-

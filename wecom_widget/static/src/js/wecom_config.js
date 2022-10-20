@@ -16,12 +16,15 @@ odoo.define('wecom.wecom_config', function (require) {
         events: _.extend({}, ListRenderer.prototype.events, {
             'mouseenter .o_field_wecom_one2many_show': 'showHelpToolTip',
             'mouseleave .o_field_wecom_one2many_show': 'hideHelpToolTip',
+            'click .o_wecom_config_checkbox': '_onClickWecomConfigCheckbox',
         }),
         init: function (parent, state, params) {
             var self = this;
             this.sectionFieldName = "is_wecom_config";
+
             this._super.apply(this, arguments);
         },
+
         _checkIfRecordIsSection: function (id) {
             var record = this._findRecordById(id);
             return record && record.data[this.sectionFieldName];
@@ -31,11 +34,37 @@ odoo.define('wecom.wecom_config', function (require) {
                 return record.id === id;
             });
         },
+        _renderRow: function (record, index) {
+            var $row = this._super.apply(this, arguments);
+            $row.find("td:first").before($("<td/>").html(index + 1));
+            var show_help_btn_html = _t("<button class='btn btn-default btn-sm o_field_wecom_one2many_show' data-placement='left' data-content='%s' html='true'><i class='fa fa-info-circle' aria-hidden='false'></i> %s</button>");
+            var $show_help_btn = _.str.sprintf(show_help_btn_html, record.data["description"], _t("Show"));
+            $($show_help_btn).attr("container", false);
+            $row.find("td:last").after($("<td class='text-right'></td>").append($show_help_btn));
+            return $row;
+        },
         _renderBodyCell: function (record, node, index, options) {
             var $cell = this._super.apply(this, arguments);
+            if (record.data.ttype == "boolean") {
+                // options.mode = 'readonly';
+            }
+            if (record.data.ttype == "boolean" && node.attrs.name == this.format_field) {
+                // $cell.addClass("o_wecom_config_boolean");
+                // $cell.find("span").addClass("o_wecom_config_boolean");
+                // let $checkbox = _.str.sprintf("<input id='%s' data-id='%s' class='o_wecom_config_checkbox' type='checkbox' name='%s' value='%s'/>", "checkbox" + record.id, record.res_id, node.attrs.name, record.data.value);
+                // if (record.data.value.toLowerCase() == "true") {
+                //     $checkbox = _.str.sprintf("<input id='%s' data-id='%s' class='o_wecom_config_checkbox' type='checkbox' checked='checked' name='%s' value='%s'/>", "checkbox" + record.id, record.res_id, node.attrs.name, record.data.value);
+                // } else {
+                //     $checkbox = _.str.sprintf("<input id='%s' data-id='%s' class='o_wecom_config_checkbox' type='checkbox' name='%s' value='%s'/>", "checkbox" + record.id, record.res_id, node.attrs.name, record.data.value);
+                // }
+                // $cell.prepend($checkbox);
+            }
+
+            if (record.data.ttype == "datetime" || record.data.ttype == "char") {
+                options.mode = 'readonly';
+            }
 
             var isSection = record.data[this.sectionFieldName];
-
             if (isSection) {
                 if (node.attrs.widget === "handle" || node.attrs.name === "random_questions_count") {
                     return $cell;
@@ -58,6 +87,47 @@ odoo.define('wecom.wecom_config', function (require) {
             }
             return $cell;
         },
+        _onClickWecomConfigCheckbox: function (ev) {
+            var self = this;
+            // ev.stopPropagation();
+
+            var checked = $(ev.target).prop('checked');
+            console.log("checked", $(ev.target).data("id"), checked);
+            $(ev.target).parent().addClass("text-nowrap");
+
+            let value = "";
+            if (checked) {
+                $(ev.target).prop("checked", false);
+                value = "False";
+            } else {
+                $(ev.target).prop("checked", true);
+                value = "True";
+            }
+
+            if ($(ev.target).siblings().length > 0) {
+                let $next = $(ev.target).next();
+                console.log("length", $next.length)
+
+                $next.addClass("w-auto");
+                $next.text(value);
+                $(ev.target).parent().attr("title", value);
+                $.each(this.state.data, function (index, res) {
+                    if (res.res_id == $(ev.target).data("id")) {
+                        self._rpc({
+                            model: 'wecom.app_config',
+                            method: 'update_config',
+                            args: ["", res.res_id, value],
+                        }).then(function (result) {
+                            console.log(res.data.value);
+                            res.data.value = result;
+                            console.log(res.data.value);
+                            // console.log($next);
+                            $next.text(result);
+                        });
+                    }
+                });
+            }
+        },
         _onRowClicked: function (ev) {
             ev.preventDefault(); //阻止事件默认行为
             ev.stopPropagation(); //阻止事件冒泡
@@ -69,26 +139,38 @@ odoo.define('wecom.wecom_config', function (require) {
             $thead.find("th:last").after($("<th title='help' class='text-center' width='0.4'><i class='fa fa-question-circle' aria-hidden='false'></i></th>"));
             return $thead;
         },
+        _renderHeaderCell: function (node) {
+            // 获取需要格式化的字段
+            var self = this;
+            var $th = this._super.apply(this, arguments);
+            if (node.attrs.need_format) {
+                this.format_field = node.attrs.name;
+                // console.log(self.state.data)
+                $.each(this.state.data, function (index, res) {
+                    self._rpc({
+                        model: 'wecom.app_config',
+                        method: 'get_format_field_value_and_type',
+                        args: ["", res.res_id, this.format_field],
+                    }).then(function (result) {
+                        res.data["ttype"] = result;
+                        res.data["need_format"] = true;
+                    })
+                })
+            }
+            return $th;
+        },
         _renderFooter: function () {
             var $footer = this._super.apply(this, arguments);
             $footer.find("td:first").before($("<td/>"));
             $footer.find("td:last").after($("<td/>"));
             return $footer;
         },
-        _renderRow: function (record, index) {
-            var $row = this._super.apply(this, arguments);
-            $row.find("td:first").before($("<td/>").html(index + 1));
-            var show_help_btn_html = _t("<button class='btn btn-default btn-sm o_field_wecom_one2many_show' data-placement='left' data-content='%s' html='true'><i class='fa fa-info-circle' aria-hidden='false'></i> %s</button>");
-            var $show_help_btn = _.str.sprintf(show_help_btn_html, record.data["description"], _t("Show"));
-            $($show_help_btn).attr("container", false);
-            $row.find("td:last").after($("<td class='text-right'></td>").append($show_help_btn));
-            return $row;
-        },
+
         _renderView: function () {
             var def = this._super.apply(this, arguments);
             var self = this;
             return def.then(function () {
-                self.$('table.o_list_table').addClass('o_section_list_view w-auto');
+                self.$('table.o_list_table').addClass('o_section_list_view w-100');
             });
         },
         showHelpToolTip: function (ev) {

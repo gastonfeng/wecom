@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
-
 from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException
 
 
@@ -27,42 +24,6 @@ class Company(models.Model):
         # domain="[('company_id', '=', current_company_id)]",
         domain="[('company_id', '=', current_company_id)]",
     )
-
-    # auth_agentid = fields.Char(
-    #     "Auth agent Id",
-    #     default="0000000",
-    #     help="The web application ID of the authorizing party, which can be viewed in the specific web application",
-    # )
-    # auth_secret = fields.Char(
-    #     "Auth Secret", default="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    # )
-
-    # auth_redirect_uri = fields.Char(
-    #     "Callback link address redirected after authorization",
-    #     help="Please use urlencode to process the link",
-    #     readonly=True,
-    #     default="http://xxx.xxx.com:port/wxowrk_auth_oauth/authorize",
-    # )
-    # qr_redirect_uri = fields.Char(
-    #     "Scan the QR code to log in and call back the link address",
-    #     help="Please use urlencode to process the link",
-    #     readonly=True,
-    #     default="http://xxx.xxx.com:port/wxowrk_auth_oauth/qr",
-    # )
-
-    # enabled_join_qrcode = fields.Boolean(
-    #     "Enable to join the enterprise QR code ", default=True
-    # )
-    # join_qrcode = fields.Char(
-    #     "Join enterprise QR code", help="QR code link, valid for 7 days", readonly=True,
-    # )
-    # join_qrcode_size_type = fields.Selection(
-    #     [("1", "171px * 171px"), ("2", "399px * 399px"), ("3", "741px * 741px"),],
-    #     string="QR code size type",
-    #     help="1: 171 x 171; 2: 399 x 399; 3: 741 x 741; 4: 2052 x 2052",
-    #     default="2",
-    # )
-    # join_qrcode_last_time = fields.Char("Last update time (UTC)", readonly=True,)
 
     def set_oauth_provider_wxwork(self):
         web_base_url = self.env["ir.config_parameter"].get_param("web.base.url")

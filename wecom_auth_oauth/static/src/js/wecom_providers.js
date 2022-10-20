@@ -3,17 +3,15 @@ odoo.define('wecom_auth_oauth.providers', function (require) {
 
     const publicWidget = require('web.public.widget');
     var core = require('web.core');
-    var wxconfig = require('web.wxconfig');
     var qweb = core.qweb;
 
 
-    publicWidget.registry.WxWorkAuthProviders = publicWidget.Widget.extend({
-        selector: '.o_login_auth',
+    publicWidget.registry.WecomAuthProviders = publicWidget.Widget.extend({
+        selector: 'div.o_login_auth',
         xmlDependencies: ['/wecom_auth_oauth/static/src/xml/providers.xml'],
         events: {
-            'click a': '_pop_up_qr_dialog',
+            'click a': '_onClick',
         },
-
         init: function () {
             this._super.apply(this, arguments);
         },
@@ -30,20 +28,11 @@ odoo.define('wecom_auth_oauth.providers', function (require) {
             const nonceStr = self.generateNonceStr(16);
             // const url = window.location.pathname; //当前网页的URL， 不包含#及其后面部分
             const url = window.location.href.split("#")[0]; //当前网页的URL， 不包含#及其后面部分
-            // this.wx_configs_data = self._rpc({
-            //     route: "/wecom_login_jsapi",
-            //     params: {
-            //         nonceStr: nonceStr,
-            //         timestamp: timestamp,
-            //         url: url,
-            //     },
-            // })
-            // 判断是 iphone 或者 ipad后，注入JS-SDK配置信息
-            // 解决在ios端企业微信内置浏览器的WeixinJSBridge错误
-            if (self.is_ios()) {
-                // self.setWxConfig();
+            console.log(document.readyState)
+            if (document.readyState == "complete") {
+                // 页面载入完成，显示 "o_login_auth" 元素
+                this.$el.removeClass("d-none");
             }
-
             return this._super.apply(this, arguments);
         },
         is_wecom_browser: function () {
@@ -68,14 +57,14 @@ odoo.define('wecom_auth_oauth.providers', function (require) {
                 return false;
             }
         },
-        _pop_up_qr_dialog: async function (ev) {
+        _onClick: async function (ev) {
             ev.preventDefault(); //阻止默认行为
+
             var self = this;
             var url = $(ev.target).attr('href');
             var icon = $(ev.target).find("i")
 
             const data = await Promise.resolve(self.companies);
-
             if ($(ev.target).prop("tagName") == "I") {
                 url = $(ev.target).parent().attr('href');
                 icon = $(ev.target);
@@ -239,5 +228,5 @@ odoo.define('wecom_auth_oauth.providers', function (require) {
             }
             return str;
         },
-    })
+    });
 });

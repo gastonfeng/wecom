@@ -26,7 +26,11 @@ class WeComAppCallbackService(models.Model):
     )
 
     name = fields.Char(string="Service Name", required=True, translate=True)
-    code = fields.Char(string="Service Code", copy=False, required=True,)
+    code = fields.Char(
+        string="Service Code",
+        copy=False,
+        required=True,
+    )
 
     callback_url = fields.Char(
         string="URL",
@@ -83,9 +87,9 @@ class WeComAppCallbackService(models.Model):
         else:
             self.callback_url = ""
 
-    def generate_service(self):
+    def generate_contact_service(self):
         """
-        生成服务
+        生成通讯录服务
         :return:
         """
         params = self.env["ir.config_parameter"].sudo()

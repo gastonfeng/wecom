@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import logging
-from odoo import _, api, fields, models
-from odoo import tools
-from odoo.addons.base.models.ir_mail_server import MailDeliveryException
-from odoo.exceptions import UserError, Warning
+
 from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException
+
+from odoo import api, fields, models
+from odoo import tools
 
 _logger = logging.getLogger(__name__)
 
@@ -20,8 +19,8 @@ class MailMail(models.Model):
         help="Media file ID, which can be obtained by calling the upload temporary material interface",
     )
     # body_html = fields.Text("Html Body", translate=True, sanitize=False)
-    body_json = fields.Text("Json Body", sanitize=False)
-    body_markdown = fields.Text("Markdown Body", sanitize=False)
+    body_json = fields.Text("Json Body")
+    body_markdown = fields.Text("Markdown Body")
     # description = fields.Char(
     #     "Short description",
     #     compute="_compute_description",
@@ -32,7 +31,7 @@ class MailMail(models.Model):
     message_to_party = fields.Char(
         string="To Departments", help="Message recipients (departments)",
     )
-    message_to_tag = fields.Char(string="To Tags", help="Message recipients (tags)",)
+    message_to_tag = fields.Char(string="To Tags", help="Message recipients (tags)", )
     use_templates = fields.Boolean("Is template message", default=False)
     templates_id = fields.Many2one("mail.template", string="Message template")
     msgtype = fields.Selection(
@@ -99,6 +98,12 @@ class MailMail(models.Model):
         ]
     )
 
+    @api.model_create_multi
+    def create(self, values_list):
+        res = super(MailMail, self).create(values_list)
+
+        return res
+
     # ------------------------------------------------------
     # mail_mail formatting, tools and send mechanism
     # 邮件格式、工具和发送机制
@@ -122,7 +127,7 @@ class MailMail(models.Model):
                     self.env["wecom.service_api_list"].get_server_api_call(
                         "MESSAGE_RECALL"
                     ),
-                    {"msgid": self.message_id},
+                    {"msgid": self.wecom_message_id},
                 )
                 # print(res)
 
@@ -132,7 +137,7 @@ class MailMail(models.Model):
                 )
             else:
                 if res["errcode"] == 0:
-                    return self.write({"state": "wecom_recall", "message_id": None})
+                    return self.write({"state": "wecom_recall", "wecom_message_id": None})
 
     def resend_message(self):
         """
@@ -180,7 +185,7 @@ class MailMail(models.Model):
                 )
             else:
                 if res["errcode"] == 0:
-                    return self.write({"state": "sent", "message_id": res["msgid"]})
+                    return self.write({"state": "sent", "wecom_message_id": res["msgid"]})
 
     def _send_prepare_body(self):
         """
@@ -211,7 +216,7 @@ class MailMail(models.Model):
         """
         self.ensure_one()
         body = self._send_prepare_body()
-        json_body = self._send_prepare_json_body()
+        body_json = self._send_prepare_json_body()
         markdown_body = self._send_prepare_markdown_body()
         body_alternative = tools.html2plaintext(body)
         if partner:
@@ -222,7 +227,7 @@ class MailMail(models.Model):
             email_to = tools.email_split_and_format(self.email_to)
         res = {
             "body": body,
-            "json_body": json_body,
+            "body_json": body_json,
             "markdown_body": markdown_body,
             "body_alternative": body_alternative,
             "email_to": email_to,
@@ -230,7 +235,7 @@ class MailMail(models.Model):
         return res
 
     def send_wecom_mail_message(
-        self, auto_commit=False, raise_exception=False, company=None,
+            self, auto_commit=False, raise_exception=False, company=None,
     ):
         """
         立即发送所选电子邮件，忽略其当前状态（已发送的邮件不应被传递，除非它们实际上应该被重新发送）。
@@ -272,11 +277,11 @@ class MailMail(models.Model):
                 pass
 
     def _send_wecom_mail_message(
-        self,
-        auto_commit=False,
-        raise_exception=False,
-        company=None,
-        WeComMessageApi=None,
+            self,
+            auto_commit=False,
+            raise_exception=False,
+            company=None,
+            WeComMessageApi=None,
     ):
         """
         发送企业微信消息
@@ -340,7 +345,7 @@ class MailMail(models.Model):
             else:
                 # 如果try中的程序执行过程中没有发生错误，继续执行else中的程序；
                 mail.write(
-                    {"state": "sent", "message_id": res["msgid"],}
+                    {"state": "sent", "wecom_message_id": res["msgid"], }
                 )
             if auto_commit is True:
                 self._cr.commit()

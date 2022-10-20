@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from lxml.builder import E
-
-from odoo import api, models, tools, _
+from odoo import models
 
 
 class BaseModel(models.AbstractModel):

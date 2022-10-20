@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime, timedelta
-from odoo import _, api, fields, models
+from odoo import _, models
 
 
 class WeComApps(models.Model):
@@ -18,8 +17,8 @@ class WeComApps(models.Model):
             # 创建消息回调服务
             app_callback_service = (
                 self.env["wecom.app_callback_service"]
-                .sudo()
-                .search([("app_id", "=", self.id), ("code", "=", code)])
+                    .sudo()
+                    .search([("app_id", "=", self.id), ("code", "=", code)])
             )
             if not app_callback_service:
                 app_callback_service.create(

@@ -2,8 +2,10 @@
 
 import logging
 from collections import defaultdict
-from odoo import api, fields, models, tools, _
+
 from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException
+
+from odoo import api, fields, models, tools
 
 _logger = logging.getLogger(__name__)
 
@@ -47,7 +49,7 @@ class WecomMessageMessage(models.Model):
         help="Media file ID, which can be obtained by calling the upload temporary material interface",
     )
     body_html = fields.Text("Html Body", translate=True, sanitize=False)
-    body_json = fields.Text("Json Body", translate=True,)
+    body_json = fields.Text("Json Body", translate=True, )
     body_markdown = fields.Text("Markdown Body", translate=True)
     description = fields.Char(
         "Short description",
@@ -59,7 +61,7 @@ class WecomMessageMessage(models.Model):
     message_to_party = fields.Char(
         string="To Departments", help="Message recipients (departments)",
     )
-    message_to_tag = fields.Char(string="To Tags", help="Message recipients (tags)",)
+    message_to_tag = fields.Char(string="To Tags", help="Message recipients (tags)", )
     use_templates = fields.Boolean("Is template message", default=False)
     templates_id = fields.Many2one("wecom.message.template", string="Message template")
     msgtype = fields.Selection(
@@ -121,7 +123,7 @@ class WecomMessageMessage(models.Model):
         copy=False,
     )
     state = fields.Selection(
-        [("sent", "Sent"), ("exception", "Send exception"), ("cancel", "Cancelled"),],
+        [("sent", "Sent"), ("exception", "Send exception"), ("cancel", "Cancelled"), ],
         string="State",
     )
     auto_delete = fields.Boolean(
@@ -159,7 +161,7 @@ class WecomMessageMessage(models.Model):
         required=True,
         default="email",
         help="Message type: email for email message, notification for system "
-        "message, comment for other messages such as user replies",
+             "message, comment for other messages such as user replies",
     )
     subtype_id = fields.Many2one(
         "mail.message.subtype", "Subtype", ondelete="set null", index=True
@@ -174,7 +176,7 @@ class WecomMessageMessage(models.Model):
 
     # 来源
     # origin
-    sender = fields.Char("Sender",)
+    sender = fields.Char("Sender", )
     meaasge_from = fields.Char(
         "From",
         help="Wecom user id of the sender. This field is set when no matching partner is found and replaces the author_id field in the chatter.",
@@ -248,8 +250,8 @@ class WecomMessageMessage(models.Model):
         # tracking_values_list = []
         for values in values_list:
             if (
-                "record_name" not in values
-                and "default_record_name" not in self.env.context
+                    "record_name" not in values
+                    and "default_record_name" not in self.env.context
             ):
                 values["record_name"] = self._get_record_name(values)
         messages = super(WecomMessageMessage, self).create(values_list)
@@ -320,7 +322,7 @@ class WecomMessageMessage(models.Model):
                 yield message_batch
 
     def send(
-        self, auto_commit=False, raise_exception=False, company=None,
+            self, auto_commit=False, raise_exception=False, company=None,
     ):
         """
         立即发送选定的企业微信消息，而忽略它们的当前状态（除非已被重新发送，否则不应该传递已经发送的企业微信消息）。
@@ -358,11 +360,11 @@ class WecomMessageMessage(models.Model):
                 pass
 
     def _send(
-        self,
-        auto_commit=False,
-        raise_exception=False,
-        company=None,
-        WeComMessageApi=None,
+            self,
+            auto_commit=False,
+            raise_exception=False,
+            company=None,
+            WeComMessageApi=None,
     ):
         """
         发送企业微信消息
@@ -374,10 +376,10 @@ class WecomMessageMessage(models.Model):
         if not company:
             company = self.env.company
         ApiObj = self.env["wecom.message.api"]
-        for message_id in self.ids:
+        for wecom_message_id in self.ids:
             message = None
             try:
-                message = self.browse(message_id)
+                message = self.browse(wecom_message_id)
                 msg = ApiObj.build_message(
                     msgtype=message.msgtype,
                     touser=message.message_to_user,
@@ -420,7 +422,7 @@ class WecomMessageMessage(models.Model):
             else:
                 # 如果try中的程序执行过程中没有发生错误，继续执行else中的程序；
                 message.write(
-                    {"state": "sent", "msgid": res["msgid"],}
+                    {"state": "sent", "msgid": res["msgid"], }
                 )
             if auto_commit is True:
                 self._cr.commit()

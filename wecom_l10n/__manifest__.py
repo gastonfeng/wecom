@@ -8,12 +8,13 @@
     "installable": True,
     "application": False,
     "auto_install": True,
-    "category": "WeCom/WeCom",
-    "version": "14.0.0.1",
+    "category": "WeCom Suites/Localizations",
+    "version": "15.0.0.1",
     "summary": """
         
         """,
     "description": """
 
         """,
+    "license": "LGPL-3",
 }

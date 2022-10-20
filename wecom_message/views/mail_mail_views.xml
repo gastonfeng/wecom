@@ -35,7 +35,7 @@
                         <group>
                             <field name="msgtype"/>
                             <field name="media_id"/>
-                            <field name="message_id"/>
+                            <field name="wecom_message_id"/>
                         </group>
                     </group>
                     <notebook>
@@ -52,7 +52,7 @@
                             <group>
                                 <group string="Status">
                                     <field name="auto_delete"/>
-                                    <field name="notification"/>
+                                    <!-- <field name="notification"/> -->
                                     <field name="message_type"/>
                                     <field name="model"/>
                                     <field name="res_id"/>
@@ -80,22 +80,19 @@
         <field name="arch" type="xml">
             <tree string="WeCom Message" decoration-muted="state in ('sent', 'cancel')" decoration-info="state=='outgoing'" decoration-danger="state=='wecom_exception'">
                 <field name="date"/>
-                <field name="state" />
+                <field name="subject"/>
+                <field name="author_id" string="Sender"/>
                 <field name="is_wecom_message"/>
                 <field name="use_templates"/>
                 <field name="message_type"/>
                 <field name="templates_id"/>
-                <field name="subject"/>
-                <field name="author_id" string="Sender"/>
-                <field name="message_id" invisible="1"/>
+                <field name="wecom_message_id" invisible="1"/>
                 <field name="recipient_ids" invisible="1"/>
                 <field name="model" invisible="1"/>
                 <field name="res_id" />
-
+                <field name="state" />
                 <button name="send_wecom_mail_message" string="Send Now" type="object" icon="fa-paper-plane" states='outgoing'/>
-
                 <button name="recall_message" string="Recall Message" type="object" icon="fa-times-circle" states='sent'/>
-
                 <button name="resend_message" string="Resend Message" type="object" icon="fa-repeat" states='wecom_exception,wecom_recall'/>
             </tree>
         </field>
@@ -139,7 +136,7 @@
                 <group expand="0" string="Group By">
                     <filter string="Status" name="status" domain="[]" context="{'group_by':'state'}"/>
                     <filter string="Author" name="author" context="{'group_by':'author_id'}"/>
-                    <filter string="Thread" name="thread" domain="[]" context="{'group_by':'message_id'}"/>
+                    <filter string="Thread" name="thread" domain="[]" context="{'group_by':'wecom_message_id'}"/>
                     <filter string="Date" name="month" help="Creation Date" domain="[]" context="{'group_by':'date'}"/>
                 </group>
             </search>

@@ -2,9 +2,8 @@
 
 import base64
 import logging
-import html2text
 
-from odoo import api, fields, models, tools, _
+from odoo import fields, models, tools, _
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -18,11 +17,11 @@ class MailTemplate(models.Model):
     _order = "name"
 
     # recipients
-    message_to_user = fields.Char(string="To Users", help="Message recipients (users)",)
+    message_to_user = fields.Char(string="To Users", help="Message recipients (users)", )
     message_to_party = fields.Char(
         string="To Departments", help="Message recipients (departments)",
     )
-    message_to_tag = fields.Char(string="To Tags", help="Message recipients (tags)",)
+    message_to_tag = fields.Char(string="To Tags", help="Message recipients (tags)", )
 
     # content
     media_id = fields.Many2one(
@@ -31,7 +30,7 @@ class MailTemplate(models.Model):
         help="Media file ID, which can be obtained by calling the upload temporary material interface",
     )
     body_json = fields.Text("Json Body", translate=True, default={})
-    body_markdown = fields.Text("Markdown Body", translate=True,)
+    body_markdown = fields.Text("Markdown Body", translate=True, )
 
     use_templates = fields.Boolean("Is template message", default=False)
     templates_id = fields.Many2one("wecom.message.template", string="Message template")
@@ -105,10 +104,10 @@ class MailTemplate(models.Model):
 
         records_company = None
         if (
-            self._context.get("tpl_partners_only")
-            and self.model
-            and results
-            and "company_id" in self.env[self.model]._fields
+                self._context.get("tpl_partners_only")
+                and self.model
+                and results
+                and "company_id" in self.env[self.model]._fields
         ):
             records = self.env[self.model].browse(results.keys()).read(["company_id"])
             records_company = {
@@ -120,11 +119,10 @@ class MailTemplate(models.Model):
             partner_ids = values.get("partner_ids", list())
             if self._context.get("tpl_partners_only"):
                 mails = (
-                    tools.email_split(values.pop("message_to_user", ""))
-                    + tools.email_split(values.pop("message_to_party", ""))
-                    + tools.email_split(values.pop("message_to_tag", ""))
+                        tools.email_split(values.pop("message_to_user", ""))
+                        + tools.email_split(values.pop("message_to_party", ""))
+                        + tools.email_split(values.pop("message_to_tag", ""))
                 )
-                print("------------", mails)
                 Partner = self.env["res.partner"]
                 if records_company:
                     Partner = Partner.with_context(
@@ -158,7 +156,7 @@ class MailTemplate(models.Model):
 
         results = dict()
         for lang, (template, template_res_ids) in self._classify_per_lang(
-            res_ids
+                res_ids
         ).items():
             for field in fields:
                 template = template.with_context(safe=(field == "subject"))
@@ -179,13 +177,13 @@ class MailTemplate(models.Model):
 
             # 计算收件人
             if any(
-                field in fields
-                for field in [
-                    "partner_to",
-                    "message_to_user",
-                    "message_to_party",
-                    "message_to_tag",
-                ]
+                    field in fields
+                    for field in [
+                        "partner_to",
+                        "message_to_user",
+                        "message_to_party",
+                        "message_to_tag",
+                    ]
             ):
                 results = template.generate_wecom_message_recipients(
                     results, template_res_ids
@@ -252,12 +250,12 @@ class MailTemplate(models.Model):
     # 发送邮件 和 企微消息
     # ------------------------------------------------------------
     def send_message(
-        self,
-        res_id,
-        force_send=False,
-        raise_exception=False,
-        email_values=None,
-        notif_layout=False,
+            self,
+            res_id,
+            force_send=False,
+            raise_exception=False,
+            email_values=None,
+            notif_layout=False,
     ):
         """
         生成一个新的mail.mail。模板呈现在模板的res_id和模型给出的记录上。
@@ -340,17 +338,17 @@ class MailTemplate(models.Model):
 
                     template_ctx = {
                         "message": self.env["mail.message"]
-                        .sudo()
-                        .new(
+                            .sudo()
+                            .new(
                             dict(
-                                body=values["body_html"],
+                                body_html=values["body_html"],
                                 record_name=record.display_name,
                             )
                         ),
                         "model_description": model.display_name,
                         "company": "company_id" in record
-                        and record["company_id"]
-                        or self.env.company,
+                                   and record["company_id"]
+                                   or self.env.company,
                         "record": record,
                     }
                     body = template._render(
@@ -380,8 +378,8 @@ class MailTemplate(models.Model):
 
                     template_ctx = {
                         "message": self.env["mail.message"]
-                        .sudo()
-                        .new(
+                            .sudo()
+                            .new(
                             dict(
                                 markdown_body=values["body_markdown"],
                                 record_name=record.display_name,
@@ -389,8 +387,8 @@ class MailTemplate(models.Model):
                         ),
                         "model_description": model.display_name,
                         "company": "company_id" in record
-                        and record["company_id"]
-                        or self.env.company,
+                                   and record["company_id"]
+                                   or self.env.company,
                         "record": record,
                     }
                     body = template._render(
@@ -404,6 +402,7 @@ class MailTemplate(models.Model):
             # 封装 body_json
             del values["body_html"]
             del values["body_markdown"]
+
             if notif_layout and values["body_json"]:
                 try:
                     template = self.env.ref(notif_layout, raise_if_not_found=True)
@@ -420,27 +419,30 @@ class MailTemplate(models.Model):
 
                     template_ctx = {
                         "message": self.env["mail.message"]
-                        .sudo()
-                        .new(
+                            .sudo()
+                            .new(
                             dict(
-                                json_body=values["body_json"],
+                                body_json=values["body_json"],
                                 record_name=record.display_name,
                             )
                         ),
                         "model_description": model.display_name,
                         "company": "company_id" in record
-                        and record["company_id"]
-                        or self.env.company,
+                                   and record["company_id"]
+                                   or self.env.company,
                         "record": record,
                     }
-                    body = template._render(
+                    body_json = template._render(
                         template_ctx, engine="ir.qweb", minimal_qcontext=True
                     )
-                    values["body_json"] = (
-                        self.env["mail.render.mixin"]
-                        ._replace_local_links(body)
-                        .compile("(?<=\>).*?(?=\<)")
-                    )
+
+                    values["body_json"] = self.env[
+                        "mail.render.mixin"
+                    ]._replace_local_links(body_json)
+
+                    print(values["body_json"])
+
+                    # .compile("(?<=\>).*?(?=\<)")
 
         if values.get("media_id"):
             values["media_id"] = self.media_id.id  # 指定对应的素材id

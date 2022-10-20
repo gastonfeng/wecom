@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import json
 import logging
-from odoo import api, models, _
-from odoo.exceptions import UserError
 
 from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException
 
-from datetime import datetime, timedelta
-import pytz
-import json
+from odoo import api, models, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -37,24 +35,24 @@ class WeComMessageApi(models.AbstractModel):
             raise UserError(_("Please bind the message application first."))
 
     def build_message(
-        self,
-        msgtype,
-        toall=None,
-        touser=None,
-        toparty=None,
-        totag=None,
-        subject=None,
-        media_id=None,
-        description=None,
-        author_id=None,
-        body_html=None,
-        body_json=None,
-        body_markdown=None,
-        safe=None,
-        enable_id_trans=None,
-        enable_duplicate_check=None,
-        duplicate_check_interval=None,
-        company=None,
+            self,
+            msgtype,
+            toall=None,
+            touser=None,
+            toparty=None,
+            totag=None,
+            subject=None,
+            media_id=None,
+            description=None,
+            author_id=None,
+            body_html=None,
+            body_json=None,
+            body_markdown=None,
+            safe=None,
+            enable_id_trans=None,
+            enable_duplicate_check=None,
+            duplicate_check_interval=None,
+            company=None,
     ):
         """
         构建消息
@@ -150,15 +148,15 @@ class WeComMessageApi(models.AbstractModel):
         return self._wecom_message_send_api(params)
 
     def get_messages_content(
-        self,
-        msgtype,
-        description=None,
-        author_id=None,
-        body_html=None,
-        body_json=None,
-        body_markdown=None,
-        subject=None,
-        media_id=None,
+            self,
+            msgtype,
+            description=None,
+            author_id=None,
+            body_html=None,
+            body_json=None,
+            body_markdown=None,
+            subject=None,
+            media_id=None,
     ):
         # material_info = (
         #     self.env["wecom.material"].sudo().browse(int(media_id)).read(["name"])
@@ -174,8 +172,8 @@ class WeComMessageApi(models.AbstractModel):
             # 图文消息（mpnews）
             material = (
                 self.sudo()
-                .env["wecom.material"]
-                .search(
+                    .env["wecom.material"]
+                    .search(
                     [
                         ("id", "=", media_id.id),
                     ],
@@ -211,12 +209,12 @@ class WeComMessageApi(models.AbstractModel):
         return messages_content
 
     def get_messages_options(
-        self,
-        msgtype,
-        safe=None,
-        enable_id_trans=None,
-        enable_duplicate_check=None,
-        duplicate_check_interval=None,
+            self,
+            msgtype,
+            safe=None,
+            enable_id_trans=None,
+            enable_duplicate_check=None,
+            duplicate_check_interval=None,
     ):
         """[summary]
         获取企业微信消息的选项

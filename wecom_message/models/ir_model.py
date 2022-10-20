@@ -22,8 +22,8 @@ class IrModel(models.Model):
             if model.is_mail_thread:
                 ModelObject = self.env[model.model]
                 potential_fields = (
-                    ModelObject._wecom_message_get_userid_fields()
-                    + ModelObject._wecom_message_get_partner_fields()
+                        ModelObject._wecom_message_get_userid_fields()
+                        + ModelObject._wecom_message_get_partner_fields()
                 )
                 if any(fname in ModelObject._fields for fname in potential_fields):
                     model.is_mail_thread_wecom_message = True
@@ -38,8 +38,8 @@ class IrModel(models.Model):
                 continue
             ModelObject = self.env[model.model]
             potential_fields = (
-                ModelObject._wecom_message_get_userid_fields()
-                + ModelObject._wecom_message_get_partner_fields()
+                    ModelObject._wecom_message_get_userid_fields()
+                    + ModelObject._wecom_message_get_partner_fields()
             )
             if any(fname in ModelObject._fields for fname in potential_fields):
                 valid_models |= model

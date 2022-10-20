@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import base64
-import os
-import io
-from PIL import Image
-from odoo import api, fields, models, tools, _
+from odoo import fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -30,6 +26,16 @@ class ResConfigSettings(models.TransientModel):
         related="message_app_id.app_callback_service_ids", readonly=False
     )
 
+    message_sending_method = fields.Selection(
+        [
+            ("1", "Block mail and send only messages."),
+            ("2", "Send mail and messages at the same time"),
+        ],
+        string="Sending method",
+        default="1",
+        request=True,
+        config_parameter="wecom.message_sending_method",
+    )
     # module_gamification = fields.Boolean(readonly=False)
 
     # module_wecom_hr_gamification_message = fields.Boolean(
@@ -37,7 +43,7 @@ class ResConfigSettings(models.TransientModel):
     # )
 
     module_digest = fields.Boolean("KPI Digests")
-    module_wecom_digest_message = fields.Boolean(
+    module_wecom_message_digest = fields.Boolean(
         "Send KPI Digests periodically via WeCom",
     )
 
@@ -91,15 +97,13 @@ class ResConfigSettings(models.TransientModel):
                     record.message_app_id.with_context(code=code).generate_service()
         super(ResConfigSettings, self).generate_service()
 
-    def get_app_info(self):
+    def get_message_app_info(self):
         """
         获取应用信息
         :return:
         """
-        app = self.env.context.get("message")
         for record in self:
-            if app=="message" and (record.message_app_id.agentid == 0 or record.message_app_id.secret == '') :
+            if record.message_agentid == 0 or record.message_secret == "":
                 raise UserError(_("Message application ID and secret cannot be empty!"))
             else:
                 record.message_app_id.get_app_info()
-        super(ResConfigSettings, self).get_app_info()
