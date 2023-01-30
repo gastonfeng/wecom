@@ -213,34 +213,35 @@ class ResConfigSettings(models.TransientModel):
         """
         ir_config = self.env["ir.config_parameter"].sudo()
         debug = ir_config.get_param("wecom.debug_enabled")
+        Self= self.env["res.config.settings"].search([])
+        for s in Self:
+            if not s.contacts_app_id:
+                raise ValidationError(_("Please bind contact app!"))
 
-        if not self.contacts_app_id:
-            raise ValidationError(_("Please bind contact app!"))
-
-        if debug:
-            _logger.info(_("Start to get enterprise wechat API domain name IP segment"))
-        try:
-            wecomapi = self.env["wecom.service_api"].InitServiceApi(
-                self.company_id.corpid, self.contacts_app_id.secret
-            )
-
-            response = wecomapi.httpCall(
-                self.env["wecom.service_api_list"].get_server_api_call(
-                    "GET_API_DOMAIN_IP"
-                ),
-                {},
-            )
-            if response["errcode"] == 0:
-                ir_config.sudo().set_param("wecom.api_domain_ip", response["ip_list"])
-
-        except ApiException as ex:
-            return self.env["wecomapi.tools.action"].ApiExceptionDialog(
-                ex, raise_exception=True
-            )
-
-        finally:
             if debug:
-                _logger.info(
-                    _("End obtaining enterprise wechat API domain name IP segment")
+                _logger.info(_("Start to get enterprise wechat API domain name IP segment"))
+            try:
+                wecomapi = self.env["wecom.service_api"].InitServiceApi(
+                    s.company_id.corpid, s.contacts_app_id.secret
                 )
+
+                response = wecomapi.httpCall(
+                    self.env["wecom.service_api_list"].get_server_api_call(
+                        "GET_API_DOMAIN_IP"
+                    ),
+                    {},
+                )
+                if response["errcode"] == 0:
+                    ir_config.sudo().set_param("wecom.api_domain_ip", response["ip_list"])
+
+            except ApiException as ex:
+                return self.env["wecomapi.tools.action"].ApiExceptionDialog(
+                    ex, raise_exception=True
+                )
+
+            finally:
+                if debug:
+                    _logger.info(
+                        _("End obtaining enterprise wechat API domain name IP segment")
+                    )
 

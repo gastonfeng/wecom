@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import pandas as pd
 
+pd.set_option("max_colwidth", 4096)  # 设置最大列宽
+pd.set_option("display.max_columns", 30)  # 设置最大列数
+pd.set_option("expand_frame_repr", False)  # 当列太多时不换行
 import logging
-import re
-
+from odoo import _, api, exceptions, fields, models, tools, registry, SUPERUSER_ID
 from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException
-
-from odoo import _, models
 
 _logger = logging.getLogger(__name__)
 
@@ -31,7 +32,7 @@ class MailThread(models.AbstractModel):
 
     MailThread特性可以通过上下文键进行某种程度的控制 :
 
-     - ``mail_create_nosubscribe``: 在创建或消息发布时，不要向记录线程订阅uid
+     - ``mail_create_nosubscribe``: 在创建或 message_post 时，不要向记录线程订阅uid
      - ``mail_create_nolog``: 在创建时，不要记录自动的'<Document>created'消息
      - ``mail_notrack``: 在创建和写入时，不要执行值跟踪创建消息
      - ``tracking_disable``: 在创建和写入时，不执行邮件线程功能（自动订阅、跟踪、发布…）
@@ -45,30 +46,22 @@ class MailThread(models.AbstractModel):
     # MESSAGE POST API
     # ------------------------------------------------------
 
-    def _check_is_wecom_message(self, message_values):
-        """
-        判断是否是企微消息
-        """
-        model = message_values["model"]
-        res_id = message_values["res_id"]
-        fields = self.env[model]._fields.keys()
-        if "is_wecom_user" in fields:
-            return self.env[model].browse(res_id).is_wecom_user
-        else:
-            return False
+
 
     # ------------------------------------------------------
     # MESSAGE POST TOOLS
     # 消息发布工具
     # ------------------------------------------------------
 
+
     # ------------------------------------------------------
     # 通知API
     # NOTIFICATION API
     # ------------------------------------------------------
 
+
     def _notify_record_by_inbox(
-            self, message, recipients_data, msg_vals=False, **kwargs
+        self, message, recipients_data, msg_vals=False, **kwargs
     ):
         """通知方式：收件箱。做两件主要的事情
 
@@ -76,13 +69,18 @@ class MailThread(models.AbstractModel):
           * 创建通道/消息链接（channel_ids mail.message 字段）;
           * 发送总线通知;
 
+          message:  mail.message 对象;
+
         TDE/XDO TODO: 直接标记 rdata，例如 r['notif'] = 'ocn_client' 和 r['needaction']=False 并正确覆盖notify_recipients
         """
-        ir_config = self.env["ir.config_parameter"].sudo()
-        message_sending_method = ir_config.get_param("wecom.message_sending_method")
+        channel_ids = [r["id"] for r in recipients_data["channels"]]
+        if channel_ids:
+            message.write({"channel_ids": [(6, 0, channel_ids)]})
 
-        bus_notifications = []
-        inbox_pids = [r["id"] for r in recipients_data if r["notif"] == "inbox"]
+        inbox_pids = [
+            r["id"] for r in recipients_data["partners"] if r["notif"] == "inbox"
+        ]
+
         if inbox_pids:
             notif_create_values = [
                 {
@@ -90,172 +88,181 @@ class MailThread(models.AbstractModel):
                     "res_partner_id": pid,
                     "notification_type": "inbox",
                     "notification_status": "sent",
-                    "is_wecom_message": True
-                    if self.env["res.partner"].browse(pid).wecom_userid
-                    else False,
+                    "is_wecom_message": True if self.env["res.partner"].browse(pid).is_wecom_user else False,
                 }
                 for pid in inbox_pids
             ]
+            self.env["mail.notification"].sudo().create(notif_create_values)
+        for pid in inbox_pids:
+            if self.env["res.partner"].browse(pid).is_wecom_user:
+                msg_vals["is_wecom_message"] = True
+                # msg_vals["receiver_company_id"] = self.env["res.partner"].browse(pid).company_id.id #接收者的公司id
+            else:
+                msg_vals["is_wecom_message"] = False
 
-            mail_notification = (
-                self.env["mail.notification"].sudo().create(notif_create_values)
+        bus_notifications = []
+        if inbox_pids or channel_ids:
+            message_format_values = False
+            if inbox_pids:
+                message_format_values = message.message_format()[0]
+                for partner_id in inbox_pids:
+                    bus_notifications.append(
+                        [
+                            (self._cr.dbname, "ir.needaction", partner_id),
+                            dict(message_format_values),
+                        ]
+                    )
+            if channel_ids:
+                channels = self.env["mail.channel"].sudo().browse(channel_ids)
+                bus_notifications += channels._channel_message_notifications(
+                    message, message_format_values
+                )
+
+        if "is_wecom_message" in  msg_vals and msg_vals["is_wecom_message"]:
+            self._notify_record_by_wecom(
+                message, recipients_data, msg_vals=msg_vals, **kwargs
             )
 
-            message_format_values = message.message_format()[0]
-            for partner_id in inbox_pids:
-                bus_notifications.append(
-                    (
-                        self.env["res.partner"].browse(partner_id),
-                        "mail.message/inbox",
-                        dict(message_format_values),
-                    )
-                )
-            if mail_notification.is_wecom_message:
-                self._notify_record_by_wecom(
-                    message, recipients_data, msg_vals=msg_vals, **kwargs
-                )
-        if message_sending_method != "1":
-            self.env["bus.bus"].sudo()._sendmany(bus_notifications)
+        if bus_notifications:
+            self.env["bus.bus"].sudo().sendmany(bus_notifications)
 
     def _notify_record_by_wecom(
-            self, message, recipients_data, msg_vals=False, **kwargs
+        self, message, recipients_data, msg_vals=False, **kwargs
     ):
         """
-        通过企业微信发送 通知消息
         :param  message: mail.message 记录
         :param list recipients_data: 收件人
         :param dic msg_vals: 消息字典值
         """
-        subject = ""
-        if msg_vals:
-            Model = self.env[msg_vals["model"]]
-            model_name = self.env["ir.model"]._get(msg_vals["model"]).display_name
-            sender = self.env.user.partner_id.browse(msg_vals["author_id"]).name
-            document_name = Model.browse(msg_vals["res_id"]).name
-            msg = self.env["mail.render.mixin"]._replace_local_links(msg_vals["body"])
-            company = Model.browse(msg_vals["res_id"]).company_id
-            author_id = msg_vals["author_id"]
-            if msg_vals.get("subject"):
-                subject = msg_vals.get("subject")
-        else:
-            Model = self.env[message["model"]]
-            model_name = self.env["ir.model"]._get(message["model"]).display_name
-            sender = message["author_id"].display_name
-            document_name = Model.browse(message["res_id"]).name
-            msg = self.env["mail.render.mixin"]._replace_local_links(message["body"])
 
-            company = Model.browse(message["res_id"]).company_id
-            author_id = message["author_id"].id
-            if message["subject"]:
-                subject = message["subject"]
-        msg = re.compile(r"<[^>]+>", re.S).sub("", msg)
+        Model = self.env[msg_vals["model"]]
+        model_name = self.env["ir.model"]._get(msg_vals["model"]).display_name
+
+        partners = []
+        if "partners" in recipients_data:
+            partners = [r["id"] for r in recipients_data["partners"]]
         wecom_userids = [
-            self.env["res.partner"].browse(r["id"]).wecom_userid
-            for r in recipients_data
-            if self.env["res.partner"].browse(r["id"]).wecom_userid
+            p.wecom_userid
+            for p in self.env["res.partner"].browse(partners)
+            if p.wecom_userid
         ]
 
-        body_markdown = (
-                _(
-                    """
-    **[%s] send a message with the record name [%s] in the application [%s].**
-    >
-    > <font color="warning">%s</font>
-    >
-    > <font color="info">Message content:</font>
-    >              
-    > %s
-    >
-    """
-                )
-                % (sender, document_name, model_name, subject, msg,)
-        )
 
-        if len(message.attachment_ids) > 0:
-            body_markdown = (
-                    _(
-                        """
-     **[%s] send a message with the record name [%s] in the application [%s].**
-    >
-    > <font color="warning">%s</font>
-    >
-    > <font color="info">Message content:</font>
-    >              
-    > %s
-    
-    
-    > The message contains %s attachments   
-    >
-    > Please log in to the system to view.     
-                """
-                    )
-                    % (
-                        sender,
-                        document_name,
-                        model_name,
-                        subject,
-                        msg,
-                        len(message.attachment_ids),
-                    )
-            )
+
+        sender = self.env.user.partner_id.browse(msg_vals["author_id"]).name
+
+        if msg_vals.get("subject") or message.subject:
+            pass
+        elif msg_vals.get("subject") and message.subject is False:
+            pass
+        elif msg_vals.get("subject") is False and message.subject:
+            msg_vals["subject"] = message.subject
+        else:
+            msg_vals["subject"] = _(
+                "[%s] Sends a message with the record name [%s] in the application [%s]."
+            ) % (sender, Model.browse(msg_vals["res_id"]).name, model_name)
+
+        body_markdown = _(
+            "### %s sent you a message,You can also view it in your inbox in the system."
+            + "\n\n"
+            + "> **Message content:**\n\n> %s"
+        ) % (
+            sender,
+            msg_vals["body"],
+        )
 
         message.write(
             {
-                "subject": subject,
+                "subject": msg_vals["subject"],
                 "message_to_user": "|".join(wecom_userids),
                 "message_to_party": None,
                 "message_to_tag": None,
-                "msgtype": "markdown",
                 "body_markdown": body_markdown,
-                "is_wecom_message": True,
             }
         )
 
-        if not company:
-            company = self.env.company
-        try:
-            wecomapi = self.env["wecom.service_api"].InitServiceApi(
-                company.corpid, company.message_app_id.secret
-            )
-            msg = self.env["wecom.message.api"].build_message(
-                msgtype="markdown",
-                touser="|".join(wecom_userids),
-                toparty="",
-                totag="",
-                subject=subject,
-                media_id=None,
-                description=None,
-                author_id=author_id,
-                body_markdown=body_markdown,
-                safe=True,
-                enable_id_trans=True,
-                enable_duplicate_check=True,
-                duplicate_check_interval=1800,
-                company=company,
-            )
+        # receiver_company_ids = [] #企微消息接收者的公司id
+        # for wecom_userid in wecom_userids:
+        #     user = self.env["res.users"].search([("wecom_userid", "=", wecom_userid)],limit=1)
+        #     receiver_company_ids.append(user.company_id.id)
+        # # TODO 多公司 发送消息的问题
+        # new_receiver_company_ids = list(set(receiver_company_ids)) #公司去重
 
-            del msg["company"]
-            res = wecomapi.httpCall(
-                self.env["wecom.service_api_list"].get_server_api_call("MESSAGE_SEND"),
-                msg,
-            )
-        except ApiException as exc:
-            error = self.env["wecom.service_api_error"].get_error_by_code(exc.errCode)
+        send_results = []
+
+        for user in message.message_to_user.split("|"):
+            try:
+                user = self.env["res.users"].search([("wecom_userid", "=", user)],limit=1)
+                company = user.company_id
+                wecomapi = self.env["wecom.service_api"].InitServiceApi(
+                    company.corpid, company.message_app_id.secret
+                )
+                msg = self.env["wecom.message.api"].build_message(
+                    msgtype="markdown",
+                    # touser="|".join(wecom_userids),
+                    touser=user.wecom_userid,
+                    toparty="",
+                    totag="",
+                    subject=msg_vals["subject"],
+                    media_id=None,
+                    description=None,
+                    author_id=msg_vals["author_id"],
+                    body_markdown=body_markdown,
+                    safe=True,
+                    enable_id_trans=True,
+                    enable_duplicate_check=True,
+                    duplicate_check_interval=1800,
+                    company=company,
+                )
+                del msg["company"]
+                res = wecomapi.httpCall(
+                    self.env["wecom.service_api_list"].get_server_api_call("MESSAGE_SEND"),
+                    msg,
+                )
+            except ApiException as exc:
+                error = self.env["wecom.service_api_error"].get_error_by_code(exc.errCode)
+                result = {
+                    "user": user.name,
+                    "wecom_userid": user.name,
+                    "failure": True,
+                    "failure_reason": _("Failed to send wecom message to user [%s]. Failure reason:%s %s") % (user.name,str(error["code"]), error["name"]),
+                }
+                send_results.append(result)
+                # message.write(
+                #     {
+                #         "state": "exception",
+                #         "failure_reason": "%s %s" % (str(error["code"]), error["name"]),
+                #     }
+                # )
+            else:
+                result = {
+                    "user": user.name,
+                    "failure": False,
+                    "failure_reason": _("Sending wecom message to user [%s] succeeded") % user.name,
+                }
+                send_results.append(result)
+
+            df = pd.DataFrame(send_results)
+            failure_reason =""
+            for index, row in df.iterrows():
+                failure_reason += row["failure_reason"] + "\n"
+            fail_rows = len(df[df["failure"] == True])  # 获取失败行数
+            state = "sent"
+            if fail_rows > 0:
+                state = "exception"
+
             message.write(
                 {
-                    "state": "exception",
-                    "failure_reason": "%s %s" % (str(error["code"]), error["name"]),
+                    "state": state,
+                    "message_id": failure_reason,
                 }
-            )
-        else:
-            message.write(
-                {"state": "sent", "wecom_message_id": res["msgid"], }
             )
 
     # ------------------------------------------------------
     # 关注者API
     # FOLLOWERS API
     # ------------------------------------------------------
+
 
     # ------------------------------------------------------
     # 控制器
