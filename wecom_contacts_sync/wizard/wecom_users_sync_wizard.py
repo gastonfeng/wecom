@@ -3,7 +3,6 @@
 
 import logging
 from odoo import api, models, fields, _
-from odoo.exceptions import UserError, Warning
 
 import pandas as pd
 

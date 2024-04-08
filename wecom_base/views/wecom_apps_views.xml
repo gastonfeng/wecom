@@ -74,18 +74,18 @@
                     <header></header>
                     <sheet>
                         <div name="button_box" class="oe_button_box">
-                            <button class="oe_stat_button" name="get_app_info" string="Get application" type="object" icon="fa-cloud-download" attrs="{'invisible': ['|',('agentid','=',0),('type','=','manage')]}"/>
-                            <!-- <button class="oe_stat_button" name="set_app_info" string="Set application" type="object" icon="fa-cloud-upload" attrs="{'invisible': ['|','|',('agentid','=',0),('type','=','manage'),('type','=','base'),]}"/> -->
-                            <button class="oe_stat_button" name="get_access_token" string="Get Access Token" type="object" icon="fa-key" attrs="{'invisible': ['|',('company_id','=', False),('type','=', 'self')]}"/>
+                            <button class="oe_stat_button" name="get_app_info" string="Get application" type="object" icon="fa-cloud-download" invisible="agentid==0 or type=='manage'"/>
+                            <!-- <button class="oe_stat_button" name="set_app_info" string="Set application" type="object" icon="fa-cloud-upload" invisible= ['|','|',('agentid','=',0),('type','=','manage'),('type','=','base'),]}"/> -->
+                            <button class="oe_stat_button" name="get_access_token" string="Get Access Token" type="object" icon="fa-key" invisible="company_id==False or type==self"/>
                             <!-- <button class="oe_stat_button" name="get_type_code" string="Get Type Code" type="object" icon="fa-key" /> -->
-                            <button class="oe_stat_button" name="get_app_jsapi_ticket" string="Get JSAPI Ticket" type="object" icon="fa-ticket" attrs="{'invisible': [('company_id','=', False)]}"/>
+                            <button class="oe_stat_button" name="get_app_jsapi_ticket" string="Get JSAPI Ticket" type="object" icon="fa-ticket" invisible="company_id==False"/>
                         </div>
 
                         <field name="square_logo_url" widget="image_url" options='{"size": [80, 80]}' class="oe_right"/>
                         <div class="oe_title">
                             <label for="app_name" class="oe_edit_only"/>
                             <h1>
-                                <field name="app_name" attrs="{'readonly': [('type','=','manage')]}" />
+                                <field name="app_name" readonly="type=='manage'" />
                             </h1>
                             <!-- <group>
                                 <field name="model_ids" widget="many2many_tags" options="{'no_create': True}"/>
@@ -96,7 +96,7 @@
                                 <field name="company_id" widget="selection" required="1"/>
                             </group>
                             <group>
-                                <field name="close" attrs="{'readonly': ['|',('type','=','manage'),('type', '=', 'base')]}"/>
+                                <field name="close" readonly="type=='manage' or type=='base'"/>
                             </group>
                         </group>
                         <group>
@@ -111,24 +111,24 @@
                             </group>
                         </group>
                         <group>
-                            <field name="description" attrs="{'readonly': ['|',('type','=','manage'),('type', '=', 'base')]}"/>
+                            <field name="description" readonly="type=='manage' or type=='base'"/>
                         </group>
 
                         <group>
                             <group>
-                                <field name="agentid" widget="integer" options="{'format': false}" attrs="{'readonly': [('type','=','manage')]}"/>
+                                <field name="agentid" widget="integer" options="{'format': false}" readonly="type=='manage'"/>
                             </group>
                             <group>
                                 <field name="secret" widget="DisplayPasswordChar" require_encryption="True"/>
                             </group>
                         </group>
                         <group>
-                            <field name="allow_userinfos" attrs="{'readonly': [('type','=','manage')]}"/>
-                            <field name="allow_partys" attrs="{'readonly': [('type','=','manage')]}"/>
-                            <field name="allow_tags" attrs="{'readonly': [('type','=','manage')]}"/>
+                            <field name="allow_userinfos" readonly="type=='manage'"/>
+                            <field name="allow_partys" readonly="type=='manage'"/>
+                            <field name="allow_tags" readonly="type=='manage'"/>
                         </group>
                         <notebook>
-                            <page name="option" string="Option" attrs="{'invisible': [('type','!=','self')]}">
+                            <page name="option" string="Option" invisible="type!='self'">
                                 <group>
                                     <group>
                                         <field name="report_location_flag"/>

@@ -8,7 +8,7 @@
     "application": True,
     "auto_install": False,
     "category": "WeCom Suites/CRM",
-    "version": "16.0.0.1",
+    "version": "17.0.0.1",
     "summary": """
 
         """,

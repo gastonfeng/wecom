@@ -9,7 +9,5 @@ from odoo import api, SUPERUSER_ID, _
 from odoo.exceptions import UserError
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
-    env["ir.http"].clear_caches()
-    env["ir.ui.view"].clear_caches()
+def post_init_hook(env):
+    env.registry.clear_cache()

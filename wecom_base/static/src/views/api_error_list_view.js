@@ -5,8 +5,7 @@ import { registry } from '@web/core/registry';
 
 import { listView } from '@web/views/list/list_view';
 import { ListController } from '@web/views/list/list_controller';
-import { _t } from 'web.core';
-
+import { _t } from "@web/core/l10n/translation";
 export class WecomApiErrorListController extends ListController {
 	setup() {
 		super.setup();

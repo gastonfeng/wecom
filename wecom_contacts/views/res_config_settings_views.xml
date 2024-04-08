@@ -35,7 +35,7 @@
 
                 <div id="wecom_corpid_settings_container" position="after">
 
-                    <div class="col-12 col-lg-6 o_setting_box" id="wecom_jsapi_ticket_container" attrs="{'invisible': [('corpid','=', False)]}">
+                    <div class="col-12 col-lg-6 o_setting_box" id="wecom_jsapi_ticket_container" invisible="corpid==False">
                         <div class="o_setting_left_pane">
                             <i class="fa fa-ticket fa-lg" role="img" aria-label="JSAPI Ticket"></i>
                         </div>
@@ -91,7 +91,7 @@
                 <div id="wecom_contacts_warning" position="replace"/>
 
                 <div id="wecom_contacts_install" position="after">
-                    <div class="col-xs-12 col-md-6 o_setting_box" attrs="{'invisible': [('is_wecom_organization','=',False)]}">
+                    <div class="col-xs-12 col-md-6 o_setting_box" invisible="is_wecom_organization==False">
                         <div class="o_setting_left_pane">
                             <i class="fa fa-puzzle-piece fa-lg" aria-label="Contacts Application"/>
                         </div>
@@ -101,7 +101,7 @@
                                 <div class="mt8">
                                     <field name="contacts_app_id" class="w-100 " widget="selection" domain="['&amp;',('type_code', 'like', '%contacts%'),('company_id', '=', company_id)]"/>
                                 </div>
-                                <div class="mt4" attrs="{'invisible': [('contacts_app_id','=',False)]}">
+                                <div class="mt4" invisible="contacts_app_id==False">
                                     <div class="text-warning mt8">
                                         <strong>Save</strong> this page and come back here to set up other feature.</div>
                                 </div>
@@ -111,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12 col-md-6 o_setting_box" attrs="{'invisible': [('contacts_app_id','=',False)]}" id="wecom_contacts_secret">
+                    <div class="col-xs-12 col-md-6 o_setting_box" invisible="contacts_app_id==False" id="wecom_contacts_secret">
                         <div class="o_setting_left_pane">
                             <i class="fa fa-lock fa-lg" aria-label="Contacts Secret"/>
                         </div>
@@ -152,9 +152,9 @@
                 <div id="wecom_bottom" position="before">
 
                     <!-- 素材 -->
-                    <div id="wecom_material" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_contacts','=',False)]}">
+                    <div id="wecom_material" invisible="is_wecom_organization==False or module_wecom_contacts==False">
                         <h2>Wecom Material settings</h2>
-                        <div class="row mt8 o_settings_container" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_contacts','=',False)]}">
+                        <div class="row mt8 o_settings_container" invisible="is_wecom_organization==False or module_wecom_contacts==False">
                             <div class="col-12 col-lg-6 o_setting_box" id="wecom_material_install">
                                 <div class="o_setting_left_pane">
                                     <field name="module_wecom_material"/>
@@ -165,7 +165,7 @@
                                     When using the enterprise wechat API interface, developers often need to use custom resources, such as sending local picture messages, setting address book custom avatars, etc.<br/>
                                     In order to realize the same resource file, one upload can be used multiple times. Here is a material management interface: media_ ID to identify resource files and realize file upload and download.
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('module_wecom_material', '=', False)]}" id="wecom_material_warning">
+                                    <div class="content-group" invisible="module_wecom_material== False" id="wecom_material_warning">
                                         <div class="mt4 text-warning">
                                             <strong>Save</strong> this page and come back here to set up other feature.
                                         </div>
@@ -176,9 +176,9 @@
                     </div>
 
                     <!-- 身份验证 -->
-                    <div id="wecom_auth_oauth" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_material','=',False)]}">
+                    <div id="wecom_auth_oauth" invisible="is_wecom_organization==False or module_wecom_material==False">
                         <h2>Wecom Authentication settings</h2>
-                        <div class="row mt8 o_settings_container" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_material','=',False)]}">
+                        <div class="row mt8 o_settings_container" invisible="is_wecom_organization==False or module_wecom_material==False">
                             <div class="col-12 col-lg-6 o_setting_box" id="wecom_auth_oauth_install">
                                 <div class="o_setting_left_pane">
                                     <field name="module_wecom_auth_oauth"/>
@@ -190,7 +190,7 @@
                                         <br/>
                                     Enterprise wechat provides OAuth code scanning login authorization method, which can guide members to use enterprise wechat code scanning login authorization when the enterprise website is opened in the browser, so as to obtain the identity information of members and avoid the login link.
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('module_wecom_auth_oauth', '=', False)]}" id="wecom_auth_oauth_warning">
+                                    <div class="content-group" invisible="module_wecom_auth_oauth==False" id="wecom_auth_oauth_warning">
                                         <div class="mt4 text-warning">
                                             <strong>Save</strong> this page and come back here to set up other feature.
                                         </div>
@@ -201,9 +201,9 @@
                     </div>
 
                     <!-- 门户设置 -->
-                    <div id="wecom_portal" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_material','=',False)]}">
+                    <div id="wecom_portal" invisible="is_wecom_organization==False or module_wecom_material==False">
                         <h2>Wecom Portal Settings</h2>
-                        <div class="row mt8 o_settings_container" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_material','=',False)]}">
+                        <div class="row mt8 o_settings_container" invisible="is_wecom_organization==False or module_wecom_material==False">
                             <div class="col-12 col-lg-6 o_setting_box" id="wecom_portal_install">
                                 <div class="o_setting_left_pane">
                                     <field name="module_wecom_portal"/>
@@ -213,7 +213,7 @@
                                     <div class="text-muted">
                                     Display enterprise wechat related functions on the personal portal page, and create a menu of enterprise wechat applications.
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('module_wecom_portal', '=', False)]}" id="wecom_portal_warning">
+                                    <div class="content-group" invisible="module_wecom_portal==False" id="wecom_portal_warning">
                                         <div class="mt4 text-warning">
                                             <strong>Save</strong> this page and come back here to set up other feature.
                                         </div>
@@ -224,9 +224,9 @@
                     </div>
 
                     <!-- 消息 -->
-                    <div id="wecom_message" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_material','=',False)]}">
+                    <div id="wecom_message" invisible="is_wecom_organization==False or module_wecom_material==False">
                         <h2>Wecom Message settings</h2>
-                        <div class="row mt8 o_settings_container" attrs="{'invisible': ['|',('is_wecom_organization','=',False),('module_wecom_material','=',False)]}">
+                        <div class="row mt8 o_settings_container" invisible="is_wecom_organization==False or module_wecom_material==False">
                             <div class="col-12 col-lg-6 o_setting_box" id="wecom_message_install">
                                 <div class="o_setting_left_pane">
                                     <field name="module_wecom_message"/>
@@ -236,7 +236,7 @@
                                     <div class="text-muted">
                                     Enterprise wechat has opened message sending interfaces. Enterprises can use these interfaces to enable two-way communication between custom applications and enterprise wechat background or users.
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('module_wecom_message', '=', False)]}" id="wecom_message_warning">
+                                    <div class="content-group" invisible="module_wecom_message==False" id="wecom_message_warning">
                                         <div class="mt4 text-warning">
                                             <strong>Save</strong> this page and come back here to set up other feature.
                                         </div>
@@ -249,7 +249,7 @@
                     <!-- 会话内容存档 -->
                     <div id="wecom_msgaudit">
                         <h2>Session Content Archive</h2>
-                        <div class="row mt16 o_settings_container" attrs="{'invisible': [('is_wecom_organization','=',False)]}">
+                        <div class="row mt16 o_settings_container" invisible="is_wecom_organization==False">
                             <div class="col-12 col-lg-6 o_setting_box" id="wecom_msgaudit_install">
                                 <div class="o_setting_left_pane">
                                     <field name="module_wecom_msgaudit" />
@@ -259,7 +259,7 @@
                                     <div class="text-muted">
                                     Enterprises can obtain members' conversation content through the interface to meet the regulatory compliance requirements of enterprises and ensure the quality of customer service.
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('module_wecom_msgaudit', '=', False)]}" id="wecom_msgaudit_warning">
+                                    <div class="content-group" invisible="module_wecom_msgaudit==False" id="wecom_msgaudit_warning">
                                         <div class="mt8 text-warning">
                                             <strong>Save</strong> this page and come back here to set up other feature.
                                         </div>
@@ -272,7 +272,7 @@
                     <!-- 出勤打卡 -->
                     <div id="wecom_attendances">
                         <h2>Attendances</h2>
-                        <div class="row mt16 o_settings_container" attrs="{'invisible': [('is_wecom_organization','=',False)]}">
+                        <div class="row mt16 o_settings_container" invisible="is_wecom_organization==False">
                             <div class="col-12 col-lg-6 o_setting_box" id="wecom_attendance_install">
                                 <div class="o_setting_left_pane">
                                     <field name="module_wecom_attendance" />
@@ -282,7 +282,7 @@
                                     <div class="text-muted">
                                     Enterprise members can easily punch in on mobile phones or smart attendance machines, and automatically generate attendance reports in combination with approval applications. Support fixed time commuting, flexible scheduling, free commuting and out clock.
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('module_wecom_attendance', '=', False)]}" id="wecom_attendance_warning">
+                                    <div class="content-group" invisible="module_wecom_attendance==False" id="wecom_attendance_warning">
                                         <div class="mt8 text-warning">
                                             <strong>Save</strong> this page and come back here to set up other feature.
                                         </div>
@@ -295,7 +295,7 @@
                     <!-- 审批 -->
                     <div id="wecom_approval">
                         <h2>Approvals</h2>
-                        <div class="row mt16 o_settings_container" attrs="{'invisible': [('is_wecom_organization','=',False)]}">
+                        <div class="row mt16 o_settings_container" invisible="is_wecom_organization==False">
                             <div class="col-12 col-lg-6 o_setting_box" id="wecom_approval_install">
                                 <div class="o_setting_left_pane">
                                     <field name="module_wecom_approval" widget="oec_pro_upgrade_boolean"/>
@@ -305,7 +305,7 @@
                                     <div class="text-muted">
                                     Anytime, anywhere approval, you can customize the approval template, support countersigning, or signing, superior approval, conditional approval, and adapt to various processes.
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('module_wecom_approval', '=', False)]}" id="wecom_approval_warning">
+                                    <div class="content-group" invisible="module_wecom_approval==False" id="wecom_approval_warning">
                                         <div class="mt8 text-warning">
                                             <strong>Save</strong> this page and come back here to set up other feature.
                                         </div>

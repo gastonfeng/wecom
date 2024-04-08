@@ -13,9 +13,9 @@
                 </xpath>
 
                 <xpath expr="//div[@class='oe_title']/h1" position="after">
-                    <label for="abbreviated_name" attrs="{ 'invisible': [('is_wecom_organization', '=', False)]}"/>
-                    <h1 attrs="{ 'invisible': [('is_wecom_organization', '=', False)]}">
-                        <field name="abbreviated_name" class="w-100" attrs="{ 'required': [('is_wecom_organization', '!=', False)]}"/>
+                    <label for="abbreviated_name" invisible="is_wecom_organization==False"/>
+                    <h1 invisible="is_wecom_organization==False">
+                        <field name="abbreviated_name" class="w-100" required="is_wecom_organization!=False"/>
                     </h1>
 
                 </xpath>

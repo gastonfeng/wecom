@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from odoo import api, models, fields, _
-from odoo.exceptions import UserError, Warning
 
 import pandas as pd
+
+from odoo import api, models, fields, _
 
 pd.set_option("max_colwidth", 4096)  # 设置最大列宽
 pd.set_option("display.max_columns", 30)  # 设置最大列数
@@ -17,6 +17,7 @@ _logger = logging.getLogger(__name__)
 class WecomContactsSyncWizard(models.TransientModel):
     _name = "wecom.contacts.sync.wizard"
     _description = "WeCom contacts synchronization wizard"
+
     # _order = "create_date"
 
     @api.model
@@ -81,12 +82,12 @@ class WecomContactsSyncWizard(models.TransientModel):
             companies_names = [company.name for company in companies]
             self.companies = ",".join(companies_names)
         else:
-            self.companies = self.company_id.name # type: ignore
+            self.companies = self.company_id.name  # type: ignore
 
     @api.onchange("company_id")
     def onchange_company_id(self):
         if self.sync_all is False:
-            self.companies = self.company_id.name   # type: ignore
+            self.companies = self.company_id.name  # type: ignore
 
     state = fields.Selection(
         [
@@ -324,8 +325,8 @@ class WecomContactsSyncWizard(models.TransientModel):
         if fail_department_state_rows == all_state_rows:
             wecom_department_sync_state = "fail"
         elif (
-            fail_department_state_rows > 0
-            and fail_department_state_rows < all_state_rows
+                fail_department_state_rows > 0
+                and fail_department_state_rows < all_state_rows
         ):
             wecom_department_sync_state = "partially"
         elif fail_department_state_rows == 0:

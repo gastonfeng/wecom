@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="webclient_bootstrap" inherit_id="web.webclient_bootstrap">
-        <xpath expr="//t[@t-call-assets='web.assets_common']" position="before">
+        <xpath expr="//head" position="before">
             <!-- 引入 open-data SDK -->
             <!-- sdk 内容是动态返回的，请严格按照上面的方式引入，不要保存到项目本地后打包引入 -->
             <!-- referrerpolicy 声明为 origin 是为了让 sdk 能够顺利识别关键域名，不能去掉 -->

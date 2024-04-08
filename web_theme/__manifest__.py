@@ -9,7 +9,7 @@
     "application": True,
     "auto_install": False,
     "category": "iERP Suites/Backend",
-    "version": "16.0.0.1",
+    "version": "17.0.0.1",
     "summary": "Back-end theme extension",
     "description": """
 Web Client.

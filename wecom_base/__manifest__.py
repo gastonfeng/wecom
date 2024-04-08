@@ -9,7 +9,7 @@
     "auto_install": False,
     "category": "WeCom Suites/Settings",
     "website": "https://gitee.com/rainbowstudio/wecom",
-    "version": "16.0.0.1",
+    "version": "17.0.0.1",
     "summary": """
 
         """,

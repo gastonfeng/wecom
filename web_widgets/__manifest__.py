@@ -6,7 +6,7 @@
     "category": "iERP Suites/Widget",
     "summary": "iERP Widgets",
     "website": "https://eis-solution.coding.net/public/odoo/oec/git",
-    "version": "16.0.0.1",
+    "version": "17.0.0.1",
     "description": """
 
 """,

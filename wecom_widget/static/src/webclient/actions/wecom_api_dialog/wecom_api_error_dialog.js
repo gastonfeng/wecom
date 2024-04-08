@@ -6,9 +6,7 @@ import {
 import {
     _lt
 } from "@web/core/l10n/translation";
-import {
-    Markup
-} from 'web.utils';
+import { markup } from "@odoo/owl";
 const {
     Component,
 } = owl;

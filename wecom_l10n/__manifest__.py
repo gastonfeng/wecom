@@ -9,7 +9,7 @@
     "application": False,
     "auto_install": True,
     "category": "WeCom Suites/Localizations",
-    "version": "15.0.0.1",
+    "version": "17.0.0.1",
     "summary": """
 
         """,

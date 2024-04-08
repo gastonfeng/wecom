@@ -8,8 +8,7 @@ from odoo import api, SUPERUSER_ID, _
 from odoo.exceptions import UserError
 
 
-def pre_init_hook(cr):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def pre_init_hook(env):
     path = env["ir.config_parameter"].get_param("wecom.resources_path")
 
     if path:

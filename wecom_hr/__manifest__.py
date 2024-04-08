@@ -9,7 +9,7 @@
     "application": True,
     "auto_install": False,
     "category": "WeCom Suites/Localizations",
-    "version": "15.0.0.1",
+    "version": "17.0.0.1",
     "summary": """Link module between Wecom and HR""",
     "description": """
 

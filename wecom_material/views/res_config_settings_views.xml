@@ -10,7 +10,7 @@
 
                 </div>
                 <div id="wecom_material_install" position="after">
-                    <div class="col-xs-12 col-md-6 o_setting_box" attrs="{'invisible': [('is_wecom_organization','=',False)]}">
+                    <div class="col-xs-12 col-md-6 o_setting_box" invisible="is_wecom_organization==False">
                         <div class="o_setting_left_pane">
                             <i class="fa fa-puzzle-piece fa-lg" aria-label="Material Application"/>
                         </div>
@@ -22,8 +22,8 @@
                                 </div>
 
                                 <button name="%(wecom_base.action_view_wecom_apps_list)d" icon="fa-arrow-right" type="action" string="Management application" class="btn-link"/>
-                                <button class="btn btn-primary" name="get_material_app_info" string="Get application info" type="object" icon="fa-cloud-download" attrs="{'invisible': [('material_app_id','=',False)]}" context="{'app': 'material'}"/>
-                                <div class="mt4" attrs="{'invisible': [('material_app_id','=',False)]}">
+                                <button class="btn btn-primary" name="get_material_app_info" string="Get application info" type="object" icon="fa-cloud-download" invisible="material_app_id==False" context="{'app': 'material'}"/>
+                                <div class="mt4" invisible="material_app_id==False">
                                     <div class="text-warning mt8">
                                         <strong>Save</strong> this page and come back here to set up other feature.
                                     </div>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 o_setting_box" attrs="{'invisible': [('material_app_id','=',False)]}">
+                    <div class="col-xs-12 col-md-6 o_setting_box" invisible="material_app_id==False">
                         <div class="o_setting_left_pane">
                             <i class="fa fa-list-ol fa-lg" aria-label="Material Agentid"/>
                         </div>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 o_setting_box" attrs="{'invisible': [('material_app_id','=',False)]}">
+                    <div class="col-xs-12 col-md-6 o_setting_box" invisible="material_app_id==False">
                         <div class="o_setting_left_pane">
                             <i class="fa fa-key fa-lg" aria-label="Material Secret"/>
                         </div>

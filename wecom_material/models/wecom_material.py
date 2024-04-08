@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import pytz
 
 from odoo import _, api, fields, models, tools
-from odoo.exceptions import UserError, ValidationError, Warning
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.wecom_api.api.wecom_abstract_api import ApiException   # type: ignore
 
